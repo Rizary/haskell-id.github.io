@@ -24,48 +24,48 @@
 </ul>
 <h2 id="enumeration-types"><em>Enumeration types</em></h2>
 <p>Seperti bahasa pemrograman lain, Haskell membolehkan programer membuat tipe enumerasi (<em>enumeration types</em>) sendiri. Contoh sederhana:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Thing</span> <span class="fu">=</span> <span class="dt">Shoe</span> 
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Thing</span> <span class="fu">=</span> <span class="dt">Shoe</span> 
 <span class="ot">&gt;</span>            <span class="fu">|</span> <span class="dt">Ship</span> 
 <span class="ot">&gt;</span>            <span class="fu">|</span> <span class="dt">SealingWax</span> 
 <span class="ot">&gt;</span>            <span class="fu">|</span> <span class="dt">Cabbage</span> 
 <span class="ot">&gt;</span>            <span class="fu">|</span> <span class="dt">King</span>
-<span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre>
+<span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre></div>
 <p>Kita mendeklarasikan tipe baru bernama <code>Thing</code> dengan lima konstruktor data (<em>data constructors</em>): <code>Shoe</code>, <code>Ship</code>, dan seterusnya, yang merupakan nilai dari tipe <code>Thing</code>. <code>deriving Show</code> ialah mantra yang memberitahu GHC untuk membuat kode konversi dari <code>Thing</code> ke <code>String</code> secara otomatis. Hal tersebut digunakan ketika <code>ghci</code> mencetak nilai dari ekspresi bertipe <code>Thing</code>.</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; shoe ::</span> <span class="dt">Thing</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; shoe ::</span> <span class="dt">Thing</span>
 <span class="ot">&gt;</span> shoe <span class="fu">=</span> <span class="dt">Shoe</span>
 <span class="ot">&gt;</span> 
 <span class="ot">&gt; listO'Things ::</span> [<span class="dt">Thing</span>]
-<span class="ot">&gt;</span> listO'Things <span class="fu">=</span> [<span class="dt">Shoe</span>, <span class="dt">SealingWax</span>, <span class="dt">King</span>, <span class="dt">Cabbage</span>, <span class="dt">King</span>]</code></pre>
+<span class="ot">&gt;</span> listO'Things <span class="fu">=</span> [<span class="dt">Shoe</span>, <span class="dt">SealingWax</span>, <span class="dt">King</span>, <span class="dt">Cabbage</span>, <span class="dt">King</span>]</code></pre></div>
 <p>Kita bisa menulis fungsi terhadap <code>Thing</code>s dengan <em>pattern-matching</em>.</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; isSmall ::</span> <span class="dt">Thing</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; isSmall ::</span> <span class="dt">Thing</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 <span class="ot">&gt;</span> isSmall <span class="dt">Shoe</span>       <span class="fu">=</span> <span class="dt">True</span>
 <span class="ot">&gt;</span> isSmall <span class="dt">Ship</span>       <span class="fu">=</span> <span class="dt">False</span>
 <span class="ot">&gt;</span> isSmall <span class="dt">SealingWax</span> <span class="fu">=</span> <span class="dt">True</span>
 <span class="ot">&gt;</span> isSmall <span class="dt">Cabbage</span>    <span class="fu">=</span> <span class="dt">True</span>
-<span class="ot">&gt;</span> isSmall <span class="dt">King</span>       <span class="fu">=</span> <span class="dt">False</span></code></pre>
+<span class="ot">&gt;</span> isSmall <span class="dt">King</span>       <span class="fu">=</span> <span class="dt">False</span></code></pre></div>
 <p>Mengingat klausa fungsi dicoba dari atas ke bawah, kita bisa menyingkat definisi dari <code>isSmall</code> seperti berikut:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; isSmall2 ::</span> <span class="dt">Thing</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; isSmall2 ::</span> <span class="dt">Thing</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 <span class="ot">&gt;</span> isSmall2 <span class="dt">Ship</span> <span class="fu">=</span> <span class="dt">False</span>
 <span class="ot">&gt;</span> isSmall2 <span class="dt">King</span> <span class="fu">=</span> <span class="dt">False</span>
-<span class="ot">&gt;</span> isSmall2 _    <span class="fu">=</span> <span class="dt">True</span></code></pre>
+<span class="ot">&gt;</span> isSmall2 _    <span class="fu">=</span> <span class="dt">True</span></code></pre></div>
 <h2 id="lebih-jauh-tentang-enumerations">Lebih jauh tentang <em>enumerations</em></h2>
 <p><code>Thing</code> bertipe enumerasi <em>enumeration type</em>, mirip dengan yang ada di bahasa lain seperti Java atau C++. Sebenearnya, enumerasi hanyalah kasus spesifik dari sesuatu yang lebih umum di Haskell: tipe data <em>algebraic</em> (<em>algebraic data types</em>). Sebagai contoh tipe data yang bukan sekedar enumerasi, perhatikan definisi dari <code>FailableDouble</code> berikut ini:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">FailableDouble</span> <span class="fu">=</span> <span class="dt">Failure</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">FailableDouble</span> <span class="fu">=</span> <span class="dt">Failure</span>
 <span class="ot">&gt;</span>                     <span class="fu">|</span> <span class="dt">OK</span> <span class="dt">Double</span>
-<span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre>
+<span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre></div>
 <p>Di sini, tipe <code>FailableDouble</code> memiliki dua konstruktor data. Yang pertama, <code>Failure</code>, tidak memerlukan argumen. Jadi <code>Failure</code> itu sendiri ialah nilai yang bertipe <code>FailableDouble</code>. Yang kedua, <code>OK</code>, menerima satu argumen bertipe <code>Double</code>. <code>OK</code> yang berdiri sendiri bukanlah bertipe <code>FailableDouble</code>, kita harus memberinya sebuah <code>Double</code>. Sebagai contoh, <code>OK 3.4</code> ialah nilai bertipe <code>FailableDouble</code>.</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> exD1 <span class="fu">=</span> <span class="dt">Failure</span>
-<span class="ot">&gt;</span> exD2 <span class="fu">=</span> <span class="dt">OK</span> <span class="dv">3</span><span class="fu">.</span><span class="dv">4</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> exD1 <span class="fu">=</span> <span class="dt">Failure</span>
+<span class="ot">&gt;</span> exD2 <span class="fu">=</span> <span class="dt">OK</span> <span class="fl">3.4</span></code></pre></div>
 <p>Coba tebak: <code>OK</code> sendiri bertipe apa?</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; safeDiv ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">FailableDouble</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; safeDiv ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">FailableDouble</span>
 <span class="ot">&gt;</span> safeDiv _ <span class="dv">0</span> <span class="fu">=</span> <span class="dt">Failure</span>
-<span class="ot">&gt;</span> safeDiv x y <span class="fu">=</span> <span class="dt">OK</span> (x <span class="fu">/</span> y)</code></pre>
+<span class="ot">&gt;</span> safeDiv x y <span class="fu">=</span> <span class="dt">OK</span> (x <span class="fu">/</span> y)</code></pre></div>
 <p><em>Pattern-matching</em> lagi! Perhatikan pada kasus <code>OK</code>, kita bisa memberi nama kepada <code>Double</code>-nya.</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; failureToZero ::</span> <span class="dt">FailableDouble</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; failureToZero ::</span> <span class="dt">FailableDouble</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
 <span class="ot">&gt;</span> failureToZero <span class="dt">Failure</span> <span class="fu">=</span> <span class="dv">0</span>
-<span class="ot">&gt;</span> failureToZero (<span class="dt">OK</span> d)  <span class="fu">=</span> d</code></pre>
+<span class="ot">&gt;</span> failureToZero (<span class="dt">OK</span> d)  <span class="fu">=</span> d</code></pre></div>
 <p><em>Data constructors</em> bisa memiliki lebih dari satu argumen.</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="co">-- Simpan nama, umur, dan Thing favorit dari seseorang.</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="co">-- Simpan nama, umur, dan Thing favorit dari seseorang.</span>
 <span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Person</span> <span class="fu">=</span> <span class="dt">Person</span> <span class="dt">String</span> <span class="dt">Int</span> <span class="dt">Thing</span>
 <span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span>
 <span class="ot">&gt;</span> 
@@ -76,7 +76,7 @@
 <span class="ot">&gt;</span> stan  <span class="fu">=</span> <span class="dt">Person</span> <span class="st">&quot;Stan&quot;</span> <span class="dv">94</span> <span class="dt">Cabbage</span>
 <span class="ot">&gt;</span> 
 <span class="ot">&gt; getAge ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
-<span class="ot">&gt;</span> getAge (<span class="dt">Person</span> _ a _) <span class="fu">=</span> a</code></pre>
+<span class="ot">&gt;</span> getAge (<span class="dt">Person</span> _ a _) <span class="fu">=</span> a</code></pre></div>
 <p>Perhatikan bahwa <em>type constructor</em> dan <em>data constructor</em> sama-sama bernama <code>Person</code>, tetapi mereka berada di <em>namespace</em> yang berbeda dan dua hal yang berbeda. Hal ini, konstruktor tipe dan data bernama sama, cukup umum, dan cukup membingungkan jika belum terbiasa.</p>
 <h2 id="algebraic-data-types-secara-umum"><em>Algebraic data types</em> secara umum</h2>
 <p>Pada umumnya, sebuah <em>algebraic data type</em> memiliki satu atau lebih <em>data constructor</em>, dan tiap <em>data constructor</em> bisa memiliki nol atau lebih argumen.</p>
@@ -98,14 +98,14 @@ foo Constr4         = ...</code></pre>
 <ol style="list-style-type: decimal">
 <li><p>Sebuah <em>underscore</em> <code>_</code> bisa digunakan sebagai “wildcard pattern” yang cocok dengan apapun.</p></li>
 <li><p>Sebuah pola berbentuk <code>x@pat</code> bisa digunakan untuk mencocokkan nilai dengan pola <code>pat</code>, tapi <em>juga</em> memberikan nama <code>x</code> ke seluruh nilai yang dicocokkan. Sebagai contoh:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; baz ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
-<span class="ot">&gt;</span> baz p<span class="fu">@</span>(<span class="dt">Person</span> n _ _) <span class="fu">=</span> <span class="st">&quot;The name field of (&quot;</span> <span class="fu">++</span> show p <span class="fu">++</span> <span class="st">&quot;) is &quot;</span> <span class="fu">++</span> n</code></pre>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; baz ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="ot">&gt;</span> baz p<span class="fu">@</span>(<span class="dt">Person</span> n _ _) <span class="fu">=</span> <span class="st">&quot;The name field of (&quot;</span> <span class="fu">++</span> show p <span class="fu">++</span> <span class="st">&quot;) is &quot;</span> <span class="fu">++</span> n</code></pre></div>
 <pre><code>*Main&gt; baz brent
 &quot;The name field of (Person \&quot;Brent\&quot; 31 SealingWax) is Brent&quot;</code></pre></li>
 <li><p>Pola bisa bertumpuk (<em>nested</em>). Sebagai contoh:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; checkFav ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; checkFav ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 <span class="ot">&gt;</span> checkFav (<span class="dt">Person</span> n _ <span class="dt">SealingWax</span>) <span class="fu">=</span> n <span class="fu">++</span> <span class="st">&quot;, you're my kind of person!&quot;</span>
-<span class="ot">&gt;</span> checkFav (<span class="dt">Person</span> n _ _)          <span class="fu">=</span> n <span class="fu">++</span> <span class="st">&quot;, your favorite thing is lame.&quot;</span></code></pre>
+<span class="ot">&gt;</span> checkFav (<span class="dt">Person</span> n _ _)          <span class="fu">=</span> n <span class="fu">++</span> <span class="st">&quot;, your favorite thing is lame.&quot;</span></code></pre></div>
 <pre><code>*Main&gt; checkFav brent
 &quot;Brent, you're my kind of person!&quot;
 *Main&gt; checkFav stan
@@ -130,36 +130,36 @@ data Char = 'a' | 'b' | 'c' | ...</code></pre>
   pat2 -&gt; exp2
   ...</code></pre>
 <p>Ketika dievaluasi, ekspresi <code>exp</code> dicocokkan dengan tiap pola <code>pat1</code>, <code>pat2</code>, dan seterusnya secara bergantian. Pola yang pertama cocok akan dipilih, dan seluruh ekspresi <code>case</code> akan terevaluasi menjadi ekspresi yang bersesuaian dengan pola yang cocok tersebut. Sebagai contoh,</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> exCase <span class="fu">=</span> <span class="kw">case</span> <span class="st">&quot;Hello&quot;</span> <span class="kw">of</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> exCase <span class="fu">=</span> <span class="kw">case</span> <span class="st">&quot;Hello&quot;</span> <span class="kw">of</span>
 <span class="ot">&gt;</span>            []      <span class="ot">-&gt;</span> <span class="dv">3</span>
 <span class="ot">&gt;</span>            (<span class="ch">'H'</span><span class="fu">:</span>s) <span class="ot">-&gt;</span> length s
-<span class="ot">&gt;</span>            _       <span class="ot">-&gt;</span> <span class="dv">7</span></code></pre>
+<span class="ot">&gt;</span>            _       <span class="ot">-&gt;</span> <span class="dv">7</span></code></pre></div>
 <p>terevaluasi menjadi <code>4</code> (pola kedua yang terpilih, pola ketiga juga cocok tapi tidak terjangkau).</p>
 <p>Sintaks untuk mendefinisikan fungsi yang telah kita lihat sebelumnya hanyalah singkatan untuk mendefinisikan ekspresi <code>case</code>. Sebagai contoh, definisi <code>failureToZero</code> yang telah kita temui sebelumnya bisa ditulis ulang menjadi</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; failureToZero' ::</span> <span class="dt">FailableDouble</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; failureToZero' ::</span> <span class="dt">FailableDouble</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
 <span class="ot">&gt;</span> failureToZero' x <span class="fu">=</span> <span class="kw">case</span> x <span class="kw">of</span>
 <span class="ot">&gt;</span>                      <span class="dt">Failure</span> <span class="ot">-&gt;</span> <span class="dv">0</span>
-<span class="ot">&gt;</span>                      <span class="dt">OK</span> d    <span class="ot">-&gt;</span> d</code></pre>
+<span class="ot">&gt;</span>                      <span class="dt">OK</span> d    <span class="ot">-&gt;</span> d</code></pre></div>
 <h2 id="tipe-data-rekursif">Tipe data rekursif</h2>
 <p>Tipe data bisa <em>rekursif</em>, yaitu didefinisikan dalam bentuk dirinya sendiri. Kita sudah melihat sebuah tipe rekursif, list. List bisa kosong, atau berisi satu elemen diikuti list sisanya. Kita bisa mendefinisikan list kita sendiri seperti:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">IntList</span> <span class="fu">=</span> <span class="dt">Empty</span> <span class="fu">|</span> <span class="dt">Cons</span> <span class="dt">Int</span> <span class="dt">IntList</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">IntList</span> <span class="fu">=</span> <span class="dt">Empty</span> <span class="fu">|</span> <span class="dt">Cons</span> <span class="dt">Int</span> <span class="dt">IntList</span></code></pre></div>
 <p><em>Built-in</em> list di Haskell cukup serupa. List-list tersebut menggunakan sintaks bawaan, <code>[]</code> dan <code>:</code>. Mereka juga berfungsi pada tipe elemen apapun , tidak sekedar <code>Int</code> (akan dibahas lebih jauh di bab berikutnya).</p>
 <p>Kita sering menggunakan fungsi rekursif untuk memproses tipe data rekursif:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; intListProd ::</span> <span class="dt">IntList</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; intListProd ::</span> <span class="dt">IntList</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 <span class="ot">&gt;</span> intListProd <span class="dt">Empty</span>      <span class="fu">=</span> <span class="dv">1</span>
-<span class="ot">&gt;</span> intListProd (<span class="dt">Cons</span> x l) <span class="fu">=</span> x <span class="fu">*</span> intListProd l</code></pre>
+<span class="ot">&gt;</span> intListProd (<span class="dt">Cons</span> x l) <span class="fu">=</span> x <span class="fu">*</span> intListProd l</code></pre></div>
 <p>Contoh lainnya, kita bisa mendefinisikan sebuah tipe pohon biner (<em>binary tree</em>) dengan sebuah nilai <code>Int</code> tersimpan di tiap <em>node</em> internal, dan <code>Char</code> di tiap <em>leaf</em>:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Tree</span> <span class="fu">=</span> <span class="dt">Leaf</span> <span class="dt">Char</span>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Tree</span> <span class="fu">=</span> <span class="dt">Leaf</span> <span class="dt">Char</span>
 <span class="ot">&gt;</span>           <span class="fu">|</span> <span class="dt">Node</span> <span class="dt">Tree</span> <span class="dt">Int</span> <span class="dt">Tree</span>
-<span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre>
+<span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre></div>
 <p>(Jangan bertanya untuk apa pohon tersebut, ini hanyalah contoh. Ok?)</p>
 <p>Contohnya:</p>
-<pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; tree ::</span> <span class="dt">Tree</span>
-<span class="ot">&gt;</span> tree <span class="fu">=</span> <span class="dt">Node</span> (<span class="dt">Leaf</span> <span class="ch">'x'</span>) <span class="dv">1</span> (<span class="dt">Node</span> (<span class="dt">Leaf</span> <span class="ch">'y'</span>) <span class="dv">2</span> (<span class="dt">Leaf</span> <span class="ch">'z'</span>))</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; tree ::</span> <span class="dt">Tree</span>
+<span class="ot">&gt;</span> tree <span class="fu">=</span> <span class="dt">Node</span> (<span class="dt">Leaf</span> <span class="ch">'x'</span>) <span class="dv">1</span> (<span class="dt">Node</span> (<span class="dt">Leaf</span> <span class="ch">'y'</span>) <span class="dv">2</span> (<span class="dt">Leaf</span> <span class="ch">'z'</span>))</code></pre></div></div>
 
     </div>
     <div id="footer">
-      Haskell Indonesia © 2014
+      Haskell Indonesia &copy; 2014
     </div>
   </body>
 </html>
