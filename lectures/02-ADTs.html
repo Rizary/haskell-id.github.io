@@ -36,7 +36,7 @@
 <span class="ot">&gt;</span> 
 <span class="ot">&gt; listO'Things ::</span> [<span class="dt">Thing</span>]
 <span class="ot">&gt;</span> listO'Things <span class="fu">=</span> [<span class="dt">Shoe</span>, <span class="dt">SealingWax</span>, <span class="dt">King</span>, <span class="dt">Cabbage</span>, <span class="dt">King</span>]</code></pre></div>
-<p>Kita bisa menulis fungsi terhadap <code>Thing</code>s dengan <em>pattern-matching</em>.</p>
+<p>Kita bisa menulis fungsi terhadap <code>Thing</code>s dengan pencocokkan pola (<em>pattern-matching</em>).</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; isSmall ::</span> <span class="dt">Thing</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 <span class="ot">&gt;</span> isSmall <span class="dt">Shoe</span>       <span class="fu">=</span> <span class="dt">True</span>
 <span class="ot">&gt;</span> isSmall <span class="dt">Ship</span>       <span class="fu">=</span> <span class="dt">False</span>
@@ -49,7 +49,7 @@
 <span class="ot">&gt;</span> isSmall2 <span class="dt">King</span> <span class="fu">=</span> <span class="dt">False</span>
 <span class="ot">&gt;</span> isSmall2 _    <span class="fu">=</span> <span class="dt">True</span></code></pre></div>
 <h2 id="lebih-jauh-tentang-enumerations">Lebih jauh tentang <em>enumerations</em></h2>
-<p><code>Thing</code> bertipe enumerasi <em>enumeration type</em>, mirip dengan yang ada di bahasa lain seperti Java atau C++. Sebenearnya, enumerasi hanyalah kasus spesifik dari sesuatu yang lebih umum di Haskell: tipe data <em>algebraic</em> (<em>algebraic data types</em>). Sebagai contoh tipe data yang bukan sekedar enumerasi, perhatikan definisi dari <code>FailableDouble</code> berikut ini:</p>
+<p><code>Thing</code> bertipe enumerasi (<em>enumeration type</em>), mirip dengan yang ada di bahasa lain seperti Java atau C++. Sebenearnya, enumerasi hanyalah kasus spesifik dari sesuatu yang lebih umum di Haskell: tipe data <em>algebraic</em> (<em>algebraic data types</em>). Sebagai contoh tipe data yang bukan sekedar enumerasi, perhatikan definisi dari <code>FailableDouble</code> berikut ini:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">FailableDouble</span> <span class="fu">=</span> <span class="dt">Failure</span>
 <span class="ot">&gt;</span>                     <span class="fu">|</span> <span class="dt">OK</span> <span class="dt">Double</span>
 <span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span></code></pre></div>
@@ -60,11 +60,11 @@
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; safeDiv ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">FailableDouble</span>
 <span class="ot">&gt;</span> safeDiv _ <span class="dv">0</span> <span class="fu">=</span> <span class="dt">Failure</span>
 <span class="ot">&gt;</span> safeDiv x y <span class="fu">=</span> <span class="dt">OK</span> (x <span class="fu">/</span> y)</code></pre></div>
-<p><em>Pattern-matching</em> lagi! Perhatikan pada kasus <code>OK</code>, kita bisa memberi nama kepada <code>Double</code>-nya.</p>
+<p>Pencocokkan pola lagi! Perhatikan pada kasus <code>OK</code>, kita bisa memberi nama kepada <code>Double</code>-nya.</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; failureToZero ::</span> <span class="dt">FailableDouble</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
 <span class="ot">&gt;</span> failureToZero <span class="dt">Failure</span> <span class="fu">=</span> <span class="dv">0</span>
 <span class="ot">&gt;</span> failureToZero (<span class="dt">OK</span> d)  <span class="fu">=</span> d</code></pre></div>
-<p><em>Data constructors</em> bisa memiliki lebih dari satu argumen.</p>
+<p>Konstruktor data bisa memiliki lebih dari satu argumen.</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="co">-- Simpan nama, umur, dan Thing favorit dari seseorang.</span>
 <span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Person</span> <span class="fu">=</span> <span class="dt">Person</span> <span class="dt">String</span> <span class="dt">Int</span> <span class="dt">Thing</span>
 <span class="ot">&gt;</span>   <span class="kw">deriving</span> <span class="dt">Show</span>
@@ -77,17 +77,17 @@
 <span class="ot">&gt;</span> 
 <span class="ot">&gt; getAge ::</span> <span class="dt">Person</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 <span class="ot">&gt;</span> getAge (<span class="dt">Person</span> _ a _) <span class="fu">=</span> a</code></pre></div>
-<p>Perhatikan bahwa <em>type constructor</em> dan <em>data constructor</em> sama-sama bernama <code>Person</code>, tetapi mereka berada di <em>namespace</em> yang berbeda dan dua hal yang berbeda. Hal ini, konstruktor tipe dan data bernama sama, cukup umum, dan cukup membingungkan jika belum terbiasa.</p>
-<h2 id="algebraic-data-types-secara-umum"><em>Algebraic data types</em> secara umum</h2>
-<p>Pada umumnya, sebuah <em>algebraic data type</em> memiliki satu atau lebih <em>data constructor</em>, dan tiap <em>data constructor</em> bisa memiliki nol atau lebih argumen.</p>
+<p>Perhatikan bahwa konstruktor tipe (<em>type constructor</em>) dan konstruktor data sama-sama bernama <code>Person</code>, tetapi mereka berada di <em>namespace</em> yang berbeda dan merupakan dua hal yang berbeda pula. Konstruktor tipe dan data yang bernama sama ini cukup umum dan akan cukup membingungkan jika belum terbiasa.</p>
+<h2 id="tipe-data-algebraic-secara-umum">Tipe data <em>algebraic</em> secara umum</h2>
+<p>Pada umumnya, sebuah tipe data <em>algebraic</em> memiliki satu atau lebih konstruktor data, dan tiap konstruktor data bisa memiliki nol atau lebih argumen.</p>
 <pre><code>data AlgDataType = Constr1 Type11 Type12
                  | Constr2 Type21
                  | Constr3 Type31 Type32 Type33
                  | Constr4</code></pre>
-<p>Ini menyatakan bahwa nilai dari tipe <code>AlgDataType</code> bisa dibangun dengan empat cara: menggunakan <code>Constr1</code>, <code>Constr2</code>, <code>Constr3</code>, atau <code>Constr4</code>. Tergantung dari konstruktor yang digunakan, nilai <code>AlgDataType</code> bisa mengandung nilai-nilai lainnya. Misalnya, jika dibangun dengan menggunakan <code>Constr1</code> maka nilai tersebut mengandung dua nilai lainnya, satu bertipe <code>Type11</code> dan satu lagi bertipe <code>Type12</code>.</p>
-<p>Perlu diingat: nama konstruktor tipe dan data harus selalu dimulai dengan huruf besar, sedangkan variabel (termasuk nama fungsi) harus selalu dimulai dengan huruf kecil. Hal ini untuk memudahkan parser Haskell mengetahui mana nama yang merepresentasikan variabel, dan mana yang merepresentasikan konstruktor.</p>
-<h2 id="pattern-matching"><em>Pattern-matching</em></h2>
-<p>Kita sudah melihat <em>pattern-matching</em> (pencocokkan pola) di beberapa kasus. Kali ini kita akan melihat bagaimana <em>pattern-matching</em> bekerja secara umum. Pada dasarnya, <em>pattern-matching</em> ialah memisahkan nilai berdasarkan konstruktor yang membangunnya. Informasi tersebut bisa digunakan sebagai penentu apa yang harus dilakukan. Ini adalah satu-satunya cara di Haskell.</p>
+<p>Ini menyatakan bahwa nilai dari tipe <code>AlgDataType</code> bisa dibangun dengan empat cara: menggunakan <code>Constr1</code>, <code>Constr2</code>, <code>Constr3</code>, atau <code>Constr4</code>. Tergantung dari konstruktor yang digunakan, nilai <code>AlgDataType</code> bisa mengandung nilai-nilai berbeda. Misalnya, jika dibangun dengan menggunakan <code>Constr1</code> maka nilai tersebut mengandung dua nilai, satu bertipe <code>Type11</code> dan satu lagi bertipe <code>Type12</code>.</p>
+<p>Perlu diingat: nama konstruktor tipe dan konstruktor data harus selalu dimulai dengan huruf besar, sedangkan variabel (termasuk nama fungsi) harus selalu dimulai dengan huruf kecil. Hal ini untuk memudahkan parser Haskell mengetahui mana nama yang merepresentasikan variabel, dan mana yang merepresentasikan konstruktor.</p>
+<h2 id="pencocokkan-pola">Pencocokkan pola</h2>
+<p>Kita sudah melihat pencocokkan pola (<em>pattern-matching</em>) di beberapa kasus. Kali ini kita akan melihat bagaimana pencocokkan pola bekerja secara umum. Pada dasarnya, pencocokkan pola ialah memisahkan nilai berdasarkan konstruktor yang membangunnya. Informasi tersebut bisa digunakan sebagai penentu apa yang harus dilakukan. Ini adalah satu-satunya cara di Haskell.</p>
 <p>Sebagai contoh, untuk menentukan apa yang harus dilakukan dengan nilai bertipe <code>AlgDataType</code> (tipe yang kita buat sebelumnya), kita bisa menulis seperti</p>
 <pre><code>foo (Constr1 a b)   = ...
 foo (Constr2 a)     = ...
@@ -143,7 +143,7 @@ data Char = 'a' | 'b' | 'c' | ...</code></pre>
 <h2 id="tipe-data-rekursif">Tipe data rekursif</h2>
 <p>Tipe data bisa <em>rekursif</em>, yaitu didefinisikan dalam bentuk dirinya sendiri. Kita sudah melihat sebuah tipe rekursif, list. List bisa kosong, atau berisi satu elemen diikuti list sisanya. Kita bisa mendefinisikan list kita sendiri seperti:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">IntList</span> <span class="fu">=</span> <span class="dt">Empty</span> <span class="fu">|</span> <span class="dt">Cons</span> <span class="dt">Int</span> <span class="dt">IntList</span></code></pre></div>
-<p><em>Built-in</em> list di Haskell cukup serupa. List-list tersebut menggunakan sintaks bawaan, <code>[]</code> dan <code>:</code>. Mereka juga berfungsi pada tipe elemen apapun , tidak sekedar <code>Int</code> (akan dibahas lebih jauh di bab berikutnya).</p>
+<p><em>Built-in</em> list di Haskell cukup serupa. List-list tersebut menggunakan sintaks bawaan, <code>[]</code> dan <code>:</code>. Mereka juga berfungsi pada tipe elemen apapun , bukan hanya <code>Int</code> (akan dibahas lebih jauh di bab berikutnya).</p>
 <p>Kita sering menggunakan fungsi rekursif untuk memproses tipe data rekursif:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; intListProd ::</span> <span class="dt">IntList</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 <span class="ot">&gt;</span> intListProd <span class="dt">Empty</span>      <span class="fu">=</span> <span class="dv">1</span>

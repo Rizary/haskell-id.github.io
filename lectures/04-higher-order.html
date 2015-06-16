@@ -25,7 +25,7 @@
 <ul>
 <li>“<em>Learn You a Haskell for Great Good</em>”, “<em>Higher-Order Functions</em>” (Bab 5 di buku; <a href="http://learnyouahaskell.com/higher-order-functions">Bab 6 online</a>)</li>
 </ul>
-<h2 id="anonymous-functions">Anonymous functions</h2>
+<h2 id="fungsi-anonim">Fungsi anonim</h2>
 <p>Andai kita ingin menulis sebuah fungsi</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">lebihDari100 ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]</code></pre></div>
 <p>yang menyaring <code>Integer</code> yang lebih besar dari 100. Sebagai contoh,</p>
@@ -36,17 +36,17 @@
 <span class="ot">&gt;</span> 
 <span class="ot">&gt; lebihDari100 ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
 <span class="ot">&gt;</span> lebihDari100 xs <span class="fu">=</span> filter ld100 xs</code></pre></div>
-<p>Akan tetapi, cukup repot menamakan <code>ld100</code>, karena mungkin kita tak akan menggunakannya lagi. Untuk itu, kita bisa menggunakan <em>anonymous function</em>, yang juga dikenal sebagai <em>lambda abstraction</em>:</p>
+<p>Akan tetapi, cukup merepotkan untuk menamakan <code>ld100</code>, karena mungkin kita tak akan menggunakannya lagi. Untuk itu, kita bisa menggunakan fungsi anonim (<em>anonymous function</em>), yang juga dikenal sebagai abstraksi lambda (<em>lambda abstraction</em>):</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; lebihDari100_2 ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
 <span class="ot">&gt;</span> lebihDari100_2 xs <span class="fu">=</span> filter (\x <span class="ot">-&gt;</span> x <span class="fu">&gt;</span> <span class="dv">100</span>) xs</code></pre></div>
 <p><code>\x -&gt; x &gt; 100</code> (<em>backslash</em> dianggap menyerupai lambda tanpa kaki yang pendek) adalah sebuah fungsi yang menerima sebuah argument <code>x</code> dan mengembalikan apakah <code>x</code> lebih besar dari 100.</p>
 <p>Abstraksi lambda juga bisa memiliki beberapa argumen. Contohnya:</p>
 <pre><code>Prelude&gt; (\x y z -&gt; [x,2*y,3*z]) 5 6 3
 [5,12,9]</code></pre>
-<p>Akan tetapi, untuk <code>lebihDari100</code>, ada cara lebih baik untuk menulisnya, tanpa abstraksi lambda:</p>
+<p>Akan tetapi, untuk <code>lebihDari100</code>, ada cara lebih baik untuk menulisnya. Yaitu tanpa abstraksi lambda:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; lebihDari100_3 ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> [<span class="dt">Integer</span>]
 <span class="ot">&gt;</span> lebihDari100_3 xs <span class="fu">=</span> filter (<span class="fu">&gt;</span><span class="dv">100</span>) xs</code></pre></div>
-<p><code>(&gt;100)</code> adalah sebuah <em>operator section</em>: jika <code>?</code> adalah sebuah operator, maka <code>(?y)</code> sama saja dengan fungsi <code>\x -&gt; x ? y</code>, dan <code>(y?)</code> sama dengan <code>\x -&gt; y ? x</code>. Dengan kata lain, <em>operator section</em> memungkinkan kita <em>partially apply</em> suatu operator ke salah satu di antara dua argumen. Yang kita dapat ialah suatu fungsi dengan satu argumen. Contohnya seperti ini:</p>
+<p><code>(&gt;100)</code> adalah sebuah <em>operator section</em>. Jika <code>?</code> adalah sebuah operator, maka <code>(?y)</code> sama saja dengan fungsi <code>\x -&gt; x ? y</code>, dan <code>(y?)</code> sama dengan <code>\x -&gt; y ? x</code>. Dengan kata lain, <em>operator section</em> memungkinkan kita menerapkan sebagian (<em>partially apply</em>) operator ke salah satu di antara dua argumen. Yang kita dapat ialah suatu fungsi dengan satu argumen. Contohnya seperti ini:</p>
 <pre><code>Prelude&gt; (&gt;100) 102
 True
 Prelude&gt; (100&gt;) 102
@@ -57,9 +57,9 @@ Prelude&gt; map (*6) [1..5]
 <p>Sebelum membaca lebih lanjut, bisakah kalian menulis suatu fungsi bertipe ini:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> c)</code></pre></div>
 <p>?</p>
-<p>Mari kita coba. Fungsi tersebut harus menerima dua argumen dan mengembalikan suatu fungsi; masing-masing argumen juga berupa suatu fungsi.</p>
+<p>Mari kita coba. Fungsi tersebut harus menerima dua argumen dan mengembalikan suatu fungsi. Masing-masing argumen juga berupa suatu fungsi.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">foo f g <span class="fu">=</span> <span class="fu">...</span></code></pre></div>
-<p><code>...</code> harus kita ganti dengan suatu fungsi bertipe <code>a -&gt; c</code>. Kita bisa membuatnya dengan menggunakan <em>lambda abstraction</em>:</p>
+<p><code>...</code> harus kita ganti dengan suatu fungsi bertipe <code>a -&gt; c</code>. Kita bisa membuatnya dengan menggunakan abstraksi lambda:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">foo f g <span class="fu">=</span> \x <span class="ot">-&gt;</span> <span class="fu">...</span></code></pre></div>
 <p><code>x</code> bertipe <code>a</code>, dan sekarang dalam <code>...</code> kita akan menulis ekspresi bertipe <code>c</code>. Kita punya fungsi <code>g</code> yang mengubah sebuah <code>a</code> menjadi sebuah <code>b</code>, dan fungsi <code>f</code> yang mengubah sebuah <code>b</code> menjadi sebuah <code>c</code>, jadi ini seharusnya benar:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; foo ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> c)
@@ -79,8 +79,8 @@ Prelude&gt; map (*6) [1..5]
 <pre><code>Prelude&gt; :t (.)
 (.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c</code></pre>
 <p>Tunggu. Apa yang terjadi? Ke mana tanda kurung di sekitar <code>(a -&gt; c)</code>?</p>
-<h2 id="currying-dan-partial-application"><em>Currying</em> dan <em>partial application</em></h2>
-<p>Ingat kalau tipe dari fungsi yang memiliki beberapa argumen (<em>multi-argument</em>) terlihat aneh dengan ekstra anak panah? Seperti:</p>
+<h2 id="currying-dan-aplikasi-parsial"><em>Currying</em> dan aplikasi parsial</h2>
+<p>Ingat kalau tipe dari fungsi yang memiliki beberapa argumen terlihat aneh dengan ekstra anak panah? Seperti:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; f ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 <span class="ot">&gt;</span> f x y <span class="fu">=</span> <span class="dv">2</span><span class="fu">*</span>x <span class="fu">+</span> y</code></pre></div>
 <p>Sebelumnya dikatakan ada alasan yang indah dan mendalam tentangnya, dan sekarang saatnya untuk diketahui: <em>semua fungsi di Haskell hanya menerima satu argumen</em>. Loh?! Bukankah fungsi <code>f</code> di atas menerima dua argumen? Sebenarnya tidak: fungsi <code>f</code> menerima satu argumen (sebuah <code>Int</code>) dan <em>mengembalikan sebuah fungsi</em> (bertipe <code>Int -&gt; Int</code>) yang menerima satu argumen dan mengembalikan hasil akhir. Jadi kita menyatakan tipe dari <code>f</code>’s seperti ini:</p>
@@ -99,7 +99,7 @@ Prelude&gt; map (*6) [1..5]
 <p>Sebagai contoh, kita bisa menulis ulang komposisi fungsi sebelumnya di atas dengan memindahkan <code>\x -&gt; ...</code> dari sisi kanan <code>=</code> ke sisi kiri:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; comp ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c
 <span class="ot">&gt;</span> comp f g x <span class="fu">=</span> f (g x)</code></pre></div>
-<p>Ide untuk merepresentasikan fungsi <em>multi-argument</em> sebagai fungsi satu argumen disebut <em>currying</em>, mengambil nama matematikawan dan ahli logika Inggris Haskell Curry (orang yang juga mengispirasi penamaan Haskell). Curry hidup sejak 1900-1982 dan banyak menghabiskan hidupnya di Penn State, dan juga membantu mengerjakan ENIAC di UPenn. Ide representasi tersebut sebenarnya ditemukan oleh Moses Schönfinkel, jadi mungkin kita layak menyebutnya <em>schönfinkeling</em>. Curry sendiri mengatributkan ide tersebut ke Schönfinkel, akan tetapi orang lain sudah terlanjur menyebutnya “currying”.</p>
+<p>Ide untuk merepresentasikan fungsi dengan beberapa arguman sebagai fungsi satu argumen disebut <em>currying</em>, mengambil nama matematikawan dan ahli logika Inggris Haskell Curry (orang yang juga mengispirasi penamaan Haskell). Curry hidup sejak 1900-1982 dan banyak menghabiskan hidupnya di Penn State, dan juga membantu mengerjakan ENIAC di UPenn. Ide representasi tersebut sebenarnya ditemukan oleh Moses Schönfinkel, jadi mungkin kita layak menyebutnya <em>schönfinkeling</em>. Curry sendiri mengatributkan ide tersebut ke Schönfinkel, akan tetapi orang lain sudah terlanjur menyebutnya <em>currying</em>.</p>
 <p>Jika kita ingin benar-benar menyatakan sebuah fungsi dengan beberapa argumen, kita bisa memberikan satu argumen berupa <em>tuple</em>. Fungsi ini</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; f'' ::</span> (<span class="dt">Int</span>,<span class="dt">Int</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span>
 <span class="ot">&gt;</span> f'' (x,y) <span class="fu">=</span> <span class="dv">2</span><span class="fu">*</span>x <span class="fu">+</span> y</code></pre></div>
@@ -134,12 +134,12 @@ Prelude&gt; map (*6) [1..5]
 <p>Perhatikan <code>map</code> dan <code>filter</code> diaplikasikan parsial. Sebagai contoh, tipe <code>filter</code> adalah</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</code></pre></div>
 <p>Mengaplikasikannya ke <code>(&gt;3)</code> (yang bertipe <code>Integer -&gt; Bool</code>) menghasilkan fungsi bertipe <code>[Integer] -&gt; [Integer]</code>, yang merupakan fungsi yang tepat untuk digabungkan dengan fungsi lain yang menerima <code>[Integer]</code>.</p>
-<p>Gaya pemrograman seperti ini yang mendefinisikan fungsi tanpa referensi ke argumennya—bisa dibilang menyatakan <em>definisi</em> sebuah fungsi ketimbang apa yang fungsi tersebut <em>lakukan</em>—disebut sebagai “point-free”. Gaya seperti ini lebih enak dilihat. Beberapa orang bahkan sampai berkata bahwa gaya “point-free” harus sebisa mungkin dipakai, meski tentu jika terlalu jauh malah akan membingungkan. <code>lambdabot</code> di kanal IRC <code>#haskell</code> memiliki perintah <code>@pl</code> untuk mengubah fungsi menjadi bergaya “point-free”. Contohnya:</p>
+<p>Gaya pemrograman seperti ini yang mendefinisikan fungsi tanpa referensi ke argumennya (atau bisa juga dibilang menyatakan <em>definisi</em> sebuah fungsi ketimbang apa yang fungsi tersebut <em>lakukan</em>) disebut sebagai “point-free”. Gaya seperti ini lebih enak dilihat. Beberapa orang bahkan sampai berkata bahwa gaya “point-free” harus sebisa mungkin dipakai, meski tentu jika terlalu jauh malah akan membingungkan. <code>lambdabot</code> di kanal IRC <code>#haskell</code> memiliki perintah <code>@pl</code> untuk mengubah fungsi menjadi bergaya “point-free”. Contohnya:</p>
 <pre><code>@pl \f g x y -&gt; f (x ++ g x) (g y)
 join . ((flip . ((.) .)) .) . (. ap (++)) . (.)</code></pre>
-<p>Terlihat untuk kasus ini fungsi malah menjadi sulit dibaca.</p>
+<p>Terlihat untuk kasus ini, fungsi malah menjadi sulit dibaca.</p>
 <h2 id="folds"><em>Folds</em></h2>
-<p>Satu lagi pola rekursi yang akan dibahas: <em>folds</em>. Berikut adalah beberapa fungsi yang memiliki pola yang serupa: semuanya “menggabungkan” elemen-elemen yang dimiliki menjadi satu jawaban.</p>
+<p>Satu lagi pola rekursi yang akan dibahas: <em>folds</em> (terjemahan: lipat). Berikut adalah beberapa fungsi yang memiliki pola yang serupa: semuanya “menggabungkan” elemen-elemen yang dimiliki menjadi satu jawaban.</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; sum' ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> <span class="dt">Integer</span>
 <span class="ot">&gt;</span> sum' []     <span class="fu">=</span> <span class="dv">0</span>
 <span class="ot">&gt;</span> sum' (x<span class="fu">:</span>xs) <span class="fu">=</span> x <span class="fu">+</span> sum' xs
@@ -163,7 +163,7 @@ join . ((flip . ((.) .)) .) . (. ap (++)) . (.)</code></pre>
 <span class="ot">&gt;</span> product'' <span class="fu">=</span> fold <span class="dv">1</span> (<span class="fu">*</span>)
 <span class="ot">&gt;</span> length''  <span class="fu">=</span> fold <span class="dv">0</span> (\_ s <span class="ot">-&gt;</span> <span class="dv">1</span> <span class="fu">+</span> s)</code></pre></div>
 <p>(Selain <code>(\_ s -&gt; 1 + s)</code> kita juga bisa menulisnya <code>(\_ -&gt; (1+))</code> atau bahkan <code>(const (1+))</code>.)</p>
-<p><code>fold</code> sudah tersedia di <code>Prelude</code>, dengan nama <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:foldr"><code>foldr</code></a>. Argumen-argumen untuk fungsi <code>foldr</code> sedikit berbeda urutannya tapi fungsinya sama. Berikut adalah beberapa fungsi dari <code>Prelude</code> yang didefinisikan dengan <code>foldr</code>:</p>
+<p><code>fold</code> sudah tersedia di <code>Prelude</code>, dengan nama <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:foldr"><code>foldr</code></a>. Argumen-argumen untuk fungsi <code>foldr</code> sedikit berbeda urutannya dengan <code>fold</code> tadi, meski bekerja dengan cara yang sama. Berikut adalah beberapa fungsi dari <code>Prelude</code> yang didefinisikan dengan <code>foldr</code>:</p>
 <ul>
 <li><code>length</code> <code>::          [a] -&gt; Int</code></li>
 <li><code>sum</code> <code>:: Num a =&gt; [a] -&gt; a</code></li>
@@ -173,7 +173,7 @@ join . ((flip . ((.) .)) .) . (. ap (++)) . (.)</code></pre>
 <li><code>any</code> <code>:: (a -&gt; Bool) -&gt; [a] -&gt; Bool</code></li>
 <li><code>all</code> <code>:: (a -&gt; Bool) -&gt; [a] -&gt; Bool</code></li>
 </ul>
-<p>Ada juga <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:foldl"><code>foldl</code></a>, yang `fold “dari kiri”,</p>
+<p>Ada juga <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:foldl"><code>foldl</code></a>, yang “melipat (<em>fold</em>) dari kiri”,</p>
 <pre><code>foldr f z [a,b,c] == a `f` (b `f` (c `f` z))
 foldl f z [a,b,c] == ((z `f` a) `f` b) `f` c</code></pre>
 <p>Pada umumnya, kita sebaiknya menggunakan <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Data-List.html#v:foldl"><code>foldl'</code> dari <code>Data.List</code></a> , yang sama seperti <code>foldl</code> tapi lebih efisien.</p></div>
