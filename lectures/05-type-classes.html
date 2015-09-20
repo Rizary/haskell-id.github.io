@@ -22,8 +22,8 @@
 {-# OPTIONS_GHC -Wall -fno-warn-missing-signatures #-}
 -->
 <h1 id="polimorfisme-lanjutan-dan-type-classes">Polimorfisme lanjutan dan <em>type classes</em></h1>
-<p>Polimorfisme (<em>polymorphism</em>) di Haskell dikenal sebagai <em>parametric polymorphism</em>. Ini berarti fungsi polimorfis harus bekerja secara <em>seragam</em> terhadap tipe input apapun. Hal tersebut memiliki implikasi yang menarik bagi pemrogram maupun pengguna fungsi polimorfis tersebut.</p>
-<h2 id="parametricity"><em>Parametricity</em></h2>
+<p>Polimorfisme (<em>polymorphism</em>) di Haskell dikenal sebagai polimorfisme parametrik (<em>parametric polymorphism</em>). Ini berarti fungsi polimorfis harus bekerja secara <em>seragam</em> terhadap tipe input apapun. Hal tersebut memiliki implikasi yang menarik bagi pemrogram maupun pengguna fungsi polimorfis tersebut.</p>
+<h2 id="parametrisitas-parametricity">Parametrisitas (<em>parametricity</em>)</h2>
 <p>Perhatikan tipe</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></div>
 <p>Ingat bahwa <code>a</code> adalah sebuah <em>variable</em> tipe yang bisa berarti tipe apapun. Fungsi seperti apa yang bertipe seperti itu?</p>
@@ -73,7 +73,7 @@ f x y <span class="fu">=</span> x <span class="fu">&amp;&amp;</span> y</code></p
 false
 hello</code></pre>
 <p>Hal ini tidak bisa dilakukan di Haskell. Haskell tidak memiliki operator seperti <code>instanceof</code> di Java, dan tidak mungkin untuk menanyakan tipe dari suatu nilai. Salah satu alasannya ialah tipe di Haskell dihapus oleh <em>compiler</em> setelah dicek: tidak ada informasi tipe di saat <em>runtime</em>! Akan tetapi, ada pula alasan lainnya.</p>
-<p>Gaya polimorfisme seperti ini dikenal sebagai <em>parametric polymorphism</em>. Fungsi seperti <code>f :: a -&gt; a -&gt; a</code> dikatakan <em>parametric</em> untuk tipe <code>a</code>. Di sini, “<em>parametric</em>” hanyalah sebutan untuk “bekerja secara seragam untuk semua tipe yang diberikan”. Di Java, gaya polimorfisme seperti ini disediakan oleh <em>generics</em> (yang terinspirasi dari Haskell: salah satu disainer Haskell, <a href="http://homepages.inf.ed.ac.uk/wadler/">Philip Wadler</a>, adalah salah satu pengembang kunci Java generics).</p>
+<p>Gaya polimorfisme seperti ini dikenal sebagai polimorfisme parametrik. Fungsi seperti <code>f :: a -&gt; a -&gt; a</code> dikatakan parametrik untuk tipe <code>a</code>. Di sini, parametrik hanyalah sebutan untuk “bekerja secara seragam untuk semua tipe yang diberikan”. Di Java, gaya polimorfisme seperti ini disediakan oleh <em>generics</em> (yang terinspirasi dari Haskell: salah satu disainer Haskell, <a href="http://homepages.inf.ed.ac.uk/wadler/">Philip Wadler</a>, adalah salah satu pengembang kunci Java generics).</p>
 <p>Jadi fungsi apa yang mungkin bertipe seperti ini? Ternyata hanya ada dua!</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">f1 ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 f1 x y <span class="fu">=</span> x
@@ -81,7 +81,7 @@ f1 x y <span class="fu">=</span> x
 <span class="ot">f2 ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 f2 x y <span class="fu">=</span> y</code></pre></div>
 <p>Jadi tipe <code>a -&gt; a -&gt; a</code> cukup banyak mengandung informasi.</p>
-<p>Mari bermain <em>parametricity game</em>! Perhatikan tipe-tipe berikut. Untuk tiap tipe, tentukan perilaku yang mungkin dimiliki.</p>
+<p>Mari bermain <em>game</em> parametrisitas! Perhatikan tipe-tipe berikut. Untuk tiap tipe, tentukan perilaku yang mungkin dimiliki.</p>
 <ul>
 <li><code>a -&gt; a</code></li>
 <li><code>a -&gt; b</code></li>
@@ -90,9 +90,9 @@ f2 x y <span class="fu">=</span> y</code></pre></div>
 <li><code>(b -&gt; c) -&gt; (a -&gt; b) -&gt; (a -&gt; c)</code></li>
 <li><code>(a -&gt; a) -&gt; a -&gt; a</code></li>
 </ul>
-<h2 id="dua-pandangan-tentang-parametricity">Dua pandangan tentang <em>parametricity</em></h2>
+<h2 id="dua-pandangan-tentang-parametrisitas">Dua pandangan tentang parametrisitas</h2>
 <p>Sebagai penulis implementasi fungsi, ini terasa membatasi. Terlebih jika kita sudah terbiasa dengan bahasa yang memiliki hal seperti <code>instanceof</code> di Java. “Koq gitu? Kenapa tidak boleh melakukan X?”</p>
-<p>Akan tetapi, ada pandangan berbeda. Sebagai <em>pengguna</em> dari fungsi polimorfis, <em>parametricity</em> bukan berarti <em>larangan</em>, tapi lebih sebagai <em>jaminan</em>. Pada umumnya, <em>tools</em> akan lebih mudah digunakan dan dibuktikan jika <em>tools</em>-nya memberikan jaminan tentang <em>sifatnya</em>. <em>Parametricity</em> adalah salah satu alasan mengapa dengan hanya melihat tipe dari sebuah fungsi Haskell bisa memberitahu kalian banyak hal tentang fungsi tersebut.</p>
+<p>Akan tetapi, ada pandangan berbeda. Sebagai <em>pengguna</em> dari fungsi polimorfis, parametrisitas bukan berarti <em>larangan</em>, tapi lebih sebagai <em>jaminan</em>. Pada umumnya, <em>tools</em> akan lebih mudah digunakan dan dibuktikan jika <em>tools</em>-nya memberikan jaminan tentang <em>sifatnya</em>. Parametrisitas adalah salah satu alasan mengapa dengan hanya melihat tipe dari sebuah fungsi Haskell bisa memberitahu kalian banyak hal tentang fungsi tersebut.</p>
 <p>OK, tapi terkadang kita perlu menentukan sesuatu berdasarkan tipe. Contohnya, penjumlahan. Kita telah melihat bahwa penjumlahan adalah polimorfis (berlaku untuk <code>Int</code>, <code>Integer</code>, dan <code>Double</code>) tapi tentu fungsi tersebut perlu mengetahui tipe yang sedang dijumlahkan untuk mengetahui apa yang harus dilakukan. Menjumlahkan dua <code>Integer</code> tentu berbeda dengan menjumlahkan dua <code>Double</code>. Jadi bagaimana? Sihir?</p>
 <p>Ternyata tidak! Dan di Haskell, kita bisa menentukan apa yang harus dilakukan berdasarkan tipe, meski berbeda dari yang sebelumnya kita bayangkan. Mari mulai dengan melihat tipe dari <code>(+)</code>:</p>
 <pre><code>Prelude&gt; :t (+)
@@ -103,7 +103,7 @@ f2 x y <span class="fu">=</span> y</code></pre></div>
 show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
 <p>Apakah yang terjadi?</p>
 <h2 id="type-classes"><em>Type classes</em></h2>
-<p><code>Num</code>, <code>Eq</code>, <code>Ord</code>, and <code>Show</code> adalah <em>type classes</em>, dan kita sebut <code>(==)</code>, <code>(&lt;)</code>, dan <code>(+)</code> “<em>type-class polymorphic</em>”. Secara intuisi, <em>type classes</em> bisa dianggap sebagai himpunan dari tipe yang memiliki beberapa operasi yang dedefinisikan untuk mereka. Fungsi <em>type class polymorphic</em> hanya menerima tipe yang merupakan anggota (<em>instances</em>) dari <em>type class(es)</em> tersebut. Sebagai contoh, mari lihat detil dari <em>type class</em> <code>Eq</code>.</p>
+<p><code>Num</code>, <code>Eq</code>, <code>Ord</code>, and <code>Show</code> adalah <em>type classes</em>, dan kita sebut <code>(==)</code>, <code>(&lt;)</code>, dan <code>(+)</code> “<em>type-class polymorphic</em>”. Secara intuisi, <em>type classes</em> bisa dianggap sebagai himpunan dari tipe yang memiliki beberapa operasi yang dedefinisikan untuk mereka. Fungsi <em>type class polymorphic</em> hanya menerima tipe yang merupakan anggota (<em>instances</em>) dari <em>type class</em> tersebut. Sebagai contoh, mari lihat detil dari <em>type class</em> <code>Eq</code>.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
 <span class="ot">  (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 <span class="ot">  (/=) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
