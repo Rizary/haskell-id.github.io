@@ -47,14 +47,14 @@
 <p>Seperti halnya ekspresi yang memiliki tipe, tipe juga memiliki “tipe”, yang disebut <em>kind</em> (translasi: jenis). Sebelum kalian bertanya: tidak, tak ada lagi tingkat di atas <em>kind</em> – paling tidak, tidak di Haskell. Di <code>ghci</code> kita bisa menanyakan <em>kind</em> dari tipe dengan menggunakan <code>:kind</code>. Sebagai contoh, mari kita cari tahu apa <em>kind</em> dari <code>Int</code>:</p>
 <pre><code>Prelude&gt; :k Int
 Int :: *</code></pre>
-<p>Kita lihat bahwa <code>Int</code> memiliki <em>kind</em> <code>*</code>. Sebenarnya tiap tipe yang dimiliki sebuah nilai memiliki <em>kind</em> <code>*</code>. We see that <code>Int</code> has kind <code>*</code>. In fact, every type which can actually serve as the type of some values has kind <code>*</code>.</p>
+<p>Kita lihat bahwa <code>Int</code> memiliki <em>kind</em> <code>*</code>. Sebenarnya tiap tipe dari sebuah nilai memiliki <em>kind</em> <code>*</code>.</p>
 <pre><code>Prelude&gt; :k Bool
 Bool :: *
 Prelude&gt; :k Char
 Char :: *
 Prelude&gt; :k Maybe Int
 Maybe Int :: *</code></pre>
-<p>Jika <code>Maybe Int</code> memiliki <em>kind</em> <code>*</code>, bagaimana dengan <code>Maybe</code>? Perhatikan bahwa tidak ada nilai untuk tipe <code>Maybe</code>. Ada nilai untuk tipe <code>Maybe Int</code>, dan tipe <code>Maybe Bool</code>, tapi tidak untuk tipe <code>Maybe</code>. Tapi <code>Maybe</code> merupakan sesuatu yang menyerupai tipe yang valid. Jadi apa dong? Apa <em>kind</em> yang dimilikinya? Mari tanyakan <code>ghci</code>:</p>
+<p>Jika <code>Maybe Int</code> memiliki <em>kind</em> <code>*</code>, bagaimana dengan <code>Maybe</code>? Perhatikan bahwa tidak ada nilai untuk tipe <code>Maybe</code>. Terdapat nilai untuk tipe <code>Maybe Int</code>, dan tipe <code>Maybe Bool</code>, tapi tidak untuk tipe <code>Maybe</code>. Tapi <code>Maybe</code> merupakan sesuatu yang menyerupai tipe yang valid. Jadi apa dong? Apa <em>kind</em> yang dimilikinya? Mari tanyakan <code>ghci</code>:</p>
 <pre><code>Prelude&gt; :k Maybe
 Maybe :: * -&gt; *</code></pre>
 <p><code>ghci</code> barkata bahwa <code>Maybe</code> memiliki <em>kind</em> <code>* -&gt; *</code>. <code>Maybe</code> bisa dikatakan sebagai sebuah fungsi terhadap tipe. Kita biasa menyebutnya <em>type constructor</em> (konstruktor tipe). <code>Maybe</code> menerima input tipe dengan <em>kind</em> <code>*</code>, dan menghasilkan sebuah tipe lain dengan <em>kind</em> <code>*</code>. Sebagai contoh, dia bisa menerima input <code>Int :: *</code> dan menghasilkan tipe baru <code>Maybe Int :: *</code>.</p>
@@ -113,7 +113,7 @@ thingMap h fa <span class="fu">=</span> <span class="fu">???</span></code></pre>
     but `Int' has kind `*'
     In the instance declaration for `Functor Int'</code></pre>
 <p>Jika kita sudah memahami <em>kind</em>, pesan di atas cukup jelas.</p>
-<p>Cukup masuk akal (secara <em>kind</em>) untuk menjadikan, misalnya, <code>Maybe</code> sebagai anggota dari <code>Functor</code>. Mari kita lakukan. Dengan mengikuti tipe, ini menjadi sangat mudah:</p>
+<p>Cukup beralasan untuk menjadikan <code>Maybe</code> sebagai anggota dari <code>Functor</code>. Mari kita lakukan. Dengan mengikuti tipe, ini menjadi sangat mudah:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Maybe</span> <span class="kw">where</span>
 <span class="ot">&gt;</span>   fmap _ <span class="dt">Nothing</span>  <span class="fu">=</span> <span class="dt">Nothing</span>
 <span class="ot">&gt;</span>   fmap h (<span class="dt">Just</span> a) <span class="fu">=</span> <span class="dt">Just</span> (h a)</code></pre></div>
@@ -123,7 +123,7 @@ thingMap h fa <span class="fu">=</span> <span class="fu">???</span></code></pre>
 <span class="ot">&gt;</span>   fmap f (x<span class="fu">:</span>xs) <span class="fu">=</span> f x <span class="fu">:</span> fmap f xs
 <span class="ot">&gt;</span>   <span class="co">-- or just</span>
 <span class="ot">&gt;</span>   <span class="co">-- fmap = map</span></code></pre></div>
-<p><em>Easy peasy</em>. Bagaimana dengan <code>IO</code>? Bisakah menjadikan <code>IO</code> sebagai anggota <code>Functor</code>?</p>
+<p>Gampang! Bagaimana dengan <code>IO</code>? Bisakah menjadikan <code>IO</code> sebagai anggota <code>Functor</code>?</p>
 <p>Tentu. <code>fmap :: (a -&gt; b) -&gt; IO a -&gt; IO b</code> menghasilkan sebuah <em>IO</em> yang akan menjalankan aksi <code>IO a</code>, lalu menerapkan fungsi tersebut untuk mengubah hasilnya sebelum dikembalikan. Kita bisa mengimplementasikannya tanpa masalah:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">IO</span> <span class="kw">where</span>
   fmap f ioa <span class="fu">=</span> ioa <span class="fu">&gt;&gt;=</span> (\a <span class="ot">-&gt;</span> return (f a))</code></pre></div>

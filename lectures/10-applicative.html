@@ -22,7 +22,7 @@
 > {-# LANGUAGE GeneralizedNewtypeDeriving, NoMonomorphismRestriction #-}
 
 --></p>
-<h1 id="applicative-functor-bagian-i"><em>Applicative functor</em>, Bagian I</h1>
+<h1 id="applicative-functor-bagian-i"><em>Applicative Functor</em>, Bagian I</h1>
 <p>Bacaan tambahan:</p>
 <ul>
 <li><a href="http://learnyouahaskell.com/functors-applicative-functors-and-monoids#applicative-functors"><em>Applicative Functors</em></a> dari <em>Learn You a Haskell</em></li>
@@ -46,7 +46,11 @@
 <p>Sekarang begini: bukannya kita memiliki sebuah <code>Name</code> dan <code>String</code>, namun kita punya <code>[Name]</code> dan <code>[String]</code>. Mungkin kita bisa mendapatkan <code>[Employee]</code> di sini? Sekarang kita mau</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dt">Name</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Employee</span>) <span class="ot">-&gt;</span>
 ([<span class="dt">Name</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">Employee</span>])</code></pre></div>
-<p>Kita bisa bayangkan dua cara untuk ini. Kita bisa memasangkan satu <code>Name</code> untuk satu <code>String</code> untuk membuat <code>Employee</code>, atau kita bisa memasangkan <code>Name</code> dan <code>String</code> dengan segala kemungkinannya.</p>
+<p>Kita bisa bayangkan dua cara untuk ini:</p>
+<ul>
+<li>Kita bisa memasangkan satu <code>Name</code> untuk satu <code>String</code> untuk membuat <code>Employee</code></li>
+<li>Kita bisa memasangkan <code>Name</code> dan <code>String</code> dengan segala kombinasi kemungkinannya.</li>
+</ul>
 <p>Atau bagaimana kalau begini: kita punya <code>(e -&gt; Name)</code> dan <code>(e -&gt; String)</code> untuk <code>e</code> apapun. Sebagai contoh, <code>e</code> mungkin sebuah struktur data yang besar dan kita punya fungsi untuk mengekstrak <code>Name</code> dan <code>String</code> darinya. Bisakah kita membuatnya menjadi <code>(e -&gt; Employee)</code>, yang merupakan resep untuk mengekstrak <code>Employee</code> dari struktur tersebut?</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dt">Name</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Employee</span>) <span class="ot">-&gt;</span>
 ((e <span class="ot">-&gt;</span> <span class="dt">Name</span>) <span class="ot">-&gt;</span> (e <span class="ot">-&gt;</span> <span class="dt">String</span>) <span class="ot">-&gt;</span> (e <span class="ot">-&gt;</span> <span class="dt">Employee</span>))</code></pre></div>
