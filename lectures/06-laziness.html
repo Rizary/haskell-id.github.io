@@ -36,12 +36,17 @@
 <p>Misalkan kita menulis ini di Java</p>
 <pre><code>f (release_monkeys(), increment_counter())</code></pre>
 <p>Kita tahu bahwa kera-kera akan dibebaskan, lalu <em>counter</em> akan bertambah, dan hasil-hasil tersebut akan diberikan ke <code>f</code>. Tidak peduli apakah <code>f</code> akan menggunakan hasil-hasil tersebut atau tidak.</p>
-<p>Jika kedua argumen tersebut bisa dievaluasi secara independen atau tidak, dengan urutan bebas, tergantung apakah <code>f</code> akan memakainya atau tidak, maka ini akan menjadi sangat membingungkan. Ketika “efek samping” seperti ini diperbolehkan, kita perlu evaluasi <em>strict</em>.</p>
+<p>Jika hal-hal berikut:</p>
+<ul>
+<li>Evaluasi atau tidaknya kedua argumen secara independen</li>
+<li>Urutan evaluasi kedua argumen tersebut</li>
+</ul>
+<p>bergantung kepada apakah <code>f</code> akan menggunakan hasilnya, tentunya akan sangat membingungkan. Ketika “efek samping” seperti ini diperbolehkan, kita perlu evaluasi <em>strict</em>.</p>
 <h2 id="efek-samping-dan-purity">Efek samping dan <em>purity</em></h2>
-<p>Jadi yang sebenarnya bermasalah adalah hadir tidaknya <em>efek samping</em> (<em>side effects</em>). Yang dimaksud dengan efek samping ialah “apapun yang dapat menyebabkan evaluasi sebuah ekspresi berinteraksi dengan sesuatu di luar ekspresi itu sendiri”. Akar permasalahanya adalah interaksi dengan dunia luar tersebut sensitif terhadap waktu. Sebagai contoh:</p>
+<p>Jadi yang sebenarnya bermasalah adalah keberadaan <em>efek samping</em> (<em>side effect</em>). Yang dimaksud dengan efek samping ialah “apapun yang dapat menyebabkan evaluasi sebuah ekspresi berinteraksi dengan sesuatu di luar ekspresi itu sendiri”. Akar permasalahannya adalah interaksi dengan dunia luar tersebut sensitif terhadap waktu. Sebagai contoh:</p>
 <ul>
 <li>Mengubah variabel global — ini bermasalah karena bisa mempengaruhi evaluasi ekspresi-ekspresi lain</li>
-<li>Mencetak ke layar — ini bermasalah karena bisa saja ini diperlukan dalam urutan tertentu terhadap ekspresi lainnya</li>
+<li>Mencetak ke layar — ini bermasalah karena bisa saja ini diperlukan dalam urutan tertentu terhadap ekspresi lain yang juga melakukan pencetakan ke layar</li>
 <li>Membaca berkas atau jaringan — ini bermasalah karena isi dari berkas bisa mempengaruhi hasil evaluasi ekspresi</li>
 </ul>
 <p>Seperti yang kita lihat, evaluasi <em>lazy</em> membuat sulit untuk mengetahui kapan evaluasi terjadi, sehingga menyertakan efek samping ke dalam bahasa yang <em>lazy</em> menjadi sangat tidak intuitif. Secara sejarah, inilah alasan mengapa Haskell <em>pure</em> (literal: murni). Pada awalnnya, perancang Haskell berniat untuk membuat bahasa yang <em>lazy</em>, dan kemudian dengan cepat menyadari bahwa hal tersebut mustahil jika tidak melarang efek samping.</p>
@@ -115,7 +120,7 @@ foldl f z (x<span class="fu">:</span>xs) <span class="fu">=</span> foldl f (f z 
 = (3+3)
 = 6</code></pre>
 <p>Karena nilai dari akumulator tidak diperlukan hingga selesai rekursi seluruh list, akumulator membangun dirinya tiap langkah menjadi satu ekspresi besar yang belum terevaluasi <code>(((0+1)+2)+3)</code>. Pada akhirnya, ekspresi tersebut tereduksi menjadi sebuah nilai. Setidaknya, ada dua masalah dengan hal ini. Pertama, tidak efisien. Sebenarnya tidak perlu untuk memindahkan semua bilangan dari list ke sesuatu yang menyerupai list (<em>thunk akumulator</em>) sebelum menjumlahkan semuanya. Masalah kedua lebih tersembunyi. Evaluasi <code>(((0+1)+2)+3)</code> membutuhkan <code>3</code> dan <code>2</code> untuk dimasukkan ke <code>stack</code> terlebih dahulu sebelum menghitung <code>0+1</code>. Hal ini tidak masalah untuk contoh sederhana, tapi bermasalah untuk list yang sangat besar karena mungkin saja tidak ada ruang yang cukup untuk <code>stack</code> sehingga menyebabkan <code>stack overflow</code>.</p>
-<p>Solusinya adalah dengan menggunakan fungsi <code>foldl'</code>, bukan <code>foldl</code>. <code>foldl'</code> memerlukan argumen kedua (akumulator) untuk dievaluasi sebelum melanjutkan, sehingga <em>thunk</em> tidak bertambah besar.</p>
+<p>Solusinya adalah dengan menggunakan fungsi <code>foldl'</code>, bukan <code>foldl</code>. <code>foldl'</code> mengevaluasi argumen kedua (akumulator) sebelum melanjutkan, sehingga <em>thunk</em> tidak bertambah besar.</p>
 <pre><code>  foldl' (+) 0 [1,2,3]
 = foldl' (+) (0+1) [2,3]
 = foldl' (+) 1 [2,3]
@@ -160,9 +165,9 @@ foldl f z (x<span class="fu">:</span>xs) <span class="fu">=</span> foldl f (f z 
 <p>Evaluasi <em>lazy</em> memungkinkan kita untuk memiliki struktur data tak terhingga. Kita telah melihat beberapa contohnya, seperti <code>repeat 7</code> yang merupakan list berisikan <code>7</code> sebanyak tak terhingga. Mendefinisikan struktur data tak terhingga sebenarnya hanyalah menciptakan <code>thunk</code>, yang bisa kita ibaratkan sebagai “benih” di mana seluruh struktur data tersebut bisa tumbuh sesuai kebutuhan.</p>
 <p>Contoh praktis lainnya ialah data yang <em>terlalu besar</em>, seperti <em>tree</em> yang merepresentasikan <em>state</em> dari sebuah <em>game</em> (seperti catur atau go). Meski <em>tree</em> tersebut terbatas secara teori, tapi bisa menjadi terlalu besar untuk memori. Dengan Haskell, kita bisa mendefinisikan <em>tree</em> untuk semua kemungkinan langkah di <em>game</em>, lalu membuat algoritma terpisah untuk menjelajahi <em>tree</em> tersebut sesuai kemauan. Hanya bagian <em>tree</em> yang terjelajah yang akan disediakan.</p>
 <p><strong>Pemrograman <em>pipelining/wholemeal</em></strong></p>
-<p>Seperti yang telah disebutkan sebelumnya, melakukan transformasi bertahap (<em>pipelined</em>) terhadap struktur data yang besar bisa terjadi secara efisien dalam penggunaan memori. Sekarang kita bis atahu mengapa: karena <em>lazy</em>, tiap tahap dalam operasi terjadi sesuai kebutuhan. Hasil hanya diterima hanya seperlunya saja jika dibutuhkan oleh proses selanjutnya dalam <em>pipeline</em>.</p>
+<p>Seperti yang telah disebutkan sebelumnya, melakukan transformasi bertahap (<em>pipelined</em>) terhadap struktur data yang besar bisa terjadi secara efisien dalam penggunaan memori. Sekarang kita bisa tahu mengapa: karena <em>lazy</em>, tiap operasi terjadi secara bertahap. Hasil hanya ada jika dibutuhkan oleh proses selanjutnya dalam <em>pipeline</em>.</p>
 <p><strong>Pemrograman dinamis</strong></p>
-<p>Satu contoh menarik hasil dari evaluasi <em>lazy</em> ialah pemrograman dinamis (<a href="http://en.wikipedia.org/wiki/Dynamic_programming"><em>dynamic programming</em></a>). Biasannya kita harus sangat berhati-hati dalam mengisi tabel pemrograman dinamis sesuai urutan, sehingga tiap kali kita menghitung nilai dari sebuah sel, dependensinya sudah terhitung. Jika urutannya salah, hasil yang didapat juga salah.</p>
+<p>Satu contoh menarik hasil dari evaluasi <em>lazy</em> ialah pemrograman dinamis (<a href="http://en.wikipedia.org/wiki/Dynamic_programming"><em>dynamic programming</em></a>). Biasanya kita harus sangat berhati-hati dalam mengisi tabel pemrograman dinamis sesuai urutan, sehingga tiap kali kita menghitung nilai dari sebuah sel, dependensinya sudah terhitung. Jika urutannya salah, hasil yang didapat juga salah.</p>
 <p>Dengan evaluasi <em>lazy</em> di Haskell, kita bisa menggunakan Haskell <em>runtime</em> untuk mengerjakan pengurutan evaluasi tersebut! Sebagai contoh, berikut kode Haskell untuk memecahkan <a href="http://en.wikipedia.org/wiki/Knapsack_problem">0-1 knapsack problem</a>. Perhatikan bagaimana kita mendefinisikan <em>array</em> <code>m</code> dalam bentuk dirinya sendiri (rekursif), dan membiarkan evaluasi <em>lazy</em> mencari urutan yang benar untuk menghitung sel-selnya.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Array</span>
 

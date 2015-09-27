@@ -26,7 +26,7 @@
 <h2 id="parametrisitas-parametricity">Parametrisitas (<em>parametricity</em>)</h2>
 <p>Perhatikan tipe</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></div>
-<p>Ingat bahwa <code>a</code> adalah sebuah <em>variable</em> tipe yang bisa berarti tipe apapun. Fungsi seperti apa yang bertipe seperti itu?</p>
+<p>Ingat bahwa <code>a</code> adalah sebuah variable tipe yang bisa berarti tipe apapun. Fungsi seperti apa yang bertipe seperti itu?</p>
 <p>Mari kita coba begini</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">f ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 f x y <span class="fu">=</span> x <span class="fu">&amp;&amp;</span> y</code></pre></div>
@@ -38,7 +38,7 @@ f x y <span class="fu">=</span> x <span class="fu">&amp;&amp;</span> y</code></p
     In the second argument of `(&amp;&amp;)', namely `y'
     In the expression: x &amp;&amp; y
     In an equation for `f': f x y = x &amp;&amp; y</code></pre>
-<p>Hal ini dikarenakan <em>pemanggil</em> fungsi polimorfis yang menentukan tipenya. Kita yang menulis implementasinya, mencoba memilih tipe yang spesifik (<code>Bool</code>), tapi tetap ada kemungkinan untuk bertipe <code>String</code>, <code>Int</code>, atau lainnya. Bahkan, bisa juga tipe baru buatan orang lain yang didefinisikan dengan <code>f</code>. Kita tidak mungkin mengetahui tipe apa yang akan kita terima.</p>
+<p>Hal ini dikarenakan <em>pemanggil</em> fungsi polimorfis yang menentukan tipenya. Implementasi di atas mencoba memilih tipe yang spesifik (<code>Bool</code>), tapi tetap ada kemungkinan untuk bertipe <code>String</code>, <code>Int</code>, atau lainnya. Bahkan, bisa juga tipe baru buatan orang lain yang didefinisikan dengan <code>f</code>. Kita tidak mungkin mengetahui tipe apa yang akan kita terima.</p>
 <p>Dengan kata lain, tipe seperti</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></div>
 <p>bisa dibaca sebagai jaminan kalau fungsi bertipe demikian akan bekerja dengan benar, tidak peduli tipe apapun yang akan diberikan.</p>
@@ -102,12 +102,12 @@ f2 x y <span class="fu">=</span> y</code></pre></div>
 <span class="ot">(&lt;)  ::</span> <span class="dt">Ord</span> a  <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
 <p>Apakah yang terjadi?</p>
-<h2 id="type-classes"><em>Type classes</em></h2>
-<p><code>Num</code>, <code>Eq</code>, <code>Ord</code>, and <code>Show</code> adalah <em>type classes</em>, dan kita sebut <code>(==)</code>, <code>(&lt;)</code>, dan <code>(+)</code> “<em>type-class polymorphic</em>”. Secara intuisi, <em>type classes</em> bisa dianggap sebagai himpunan dari tipe yang memiliki beberapa operasi yang dedefinisikan untuk mereka. Fungsi <em>type class polymorphic</em> hanya menerima tipe yang merupakan anggota (<em>instances</em>) dari <em>type class</em> tersebut. Sebagai contoh, mari lihat detil dari <em>type class</em> <code>Eq</code>.</p>
+<h2 id="type-class"><em>Type class</em></h2>
+<p><code>Num</code>, <code>Eq</code>, <code>Ord</code>, and <code>Show</code> adalah <em>type class</em>, dan kita sebut <code>(==)</code>, <code>(&lt;)</code>, dan <code>(+)</code> “<em>type-class polymorphic</em>”. Secara intuisi, <em>type class</em> bisa dianggap sebagai himpunan dari tipe yang memiliki beberapa operasi yang terdefinisikan untuk mereka. Fungsi <em>type class polymorphic</em> hanya menerima tipe yang merupakan anggota (<em>instances</em>) dari <em>type class</em> tersebut. Sebagai contoh, mari lihat detil dari <em>type class</em> <code>Eq</code>.</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Eq</span> a <span class="kw">where</span>
 <span class="ot">  (==) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 <span class="ot">  (/=) ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
-<p>Kita bisa membacanya seperti ini: <code>Eq</code> dideklarasikan sebagai <em>type class</em> dengan satu argumen, <code>a</code>. Tiap tipe <code>a</code> yang ingin menjadi anggota (<em>instance</em>) dari <code>Eq</code> harus mendfinisikan dua fungsi, <code>(==)</code> dan <code>(/=)</code> dengan tipe yang tercantum. Misalnya, untuk membuat <code>Int</code> menjadi anggota <code>Eq</code> kita harus mendefinisikan <code>(==) :: Int -&gt; Int -&gt; Bool</code> dan <code>(/=) :: Int -&gt; Int -&gt; Bool</code>. (Tidak perlu tentunya, karena <em>Prelude</em> sudah mendefinisikan <code>Int</code> sebagai anggota <code>Eq</code>.)</p>
+<p>Kita bisa membacanya seperti ini: <code>Eq</code> dideklarasikan sebagai <em>type class</em> dengan satu argumen, <code>a</code>. Tiap tipe <code>a</code> yang ingin menjadi anggota (<em>instance</em>) dari <code>Eq</code> harus mendefinisikan dua fungsi, <code>(==)</code> dan <code>(/=)</code>, dengan tipe yang tercantum. Misalnya, untuk membuat <code>Int</code> menjadi anggota <code>Eq</code> kita harus mendefinisikan <code>(==) :: Int -&gt; Int -&gt; Bool</code> dan <code>(/=) :: Int -&gt; Int -&gt; Bool</code>. (Tidak perlu tentunya, karena <em>Prelude</em> sudah mendefinisikan <code>Int</code> sebagai anggota <code>Eq</code>.)</p>
 <p>Mari lihat tipe dari <code>(==)</code> lagi:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">(==) ::</span> <span class="dt">Eq</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
 <p><code>Eq a</code> sebelum <code>=&gt;</code> adalah sebuah <em>type class constraint</em>. Kita bisa menyebutnya: untuk semua tipe <code>a</code>, <em>selama <code>a</code> adalah anggota <code>Eq</code></em>, <code>(==)</code> bisa menerima dua nilai bertipe <code>a</code> dan mengembalikan sebuah <code>Bool</code>. Pemanggilan <code>(==)</code> kepada tipe yang bukan anggota <code>Eq</code> mengakibatkan <em>type error</em>.</p>
@@ -138,7 +138,7 @@ show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">data</span> <span class="dt">Foo'</span> <span class="fu">=</span> <span class="dt">F'</span> <span class="dt">Int</span> <span class="fu">|</span> <span class="dt">G'</span> <span class="dt">Char</span>
 <span class="ot">&gt;</span>   <span class="kw">deriving</span> (<span class="dt">Eq</span>, <span class="dt">Ord</span>, <span class="dt">Show</span>)</code></pre></div>
 <p>Di atas, kita memberitahu GHC untuk menjadikan tipe <code>Foo'</code> milik kita anggota dari <em>type class</em> <code>Eq</code>, <code>Ord</code>, dan <code>Show</code>.</p>
-<p><strong>Type classes and Java interfaces</strong></p>
+<p><strong><em>Type class</em> dan interface di Java</strong></p>
 <p><em>Type class</em> serupa dengan <em>interface</em> di Java. Keduanya mendefinisikan himpunan tipe/<em>class</em> yang mengimplementasikan beberapa operasi yang spesifik. Akan tetapi, ada dua hal penting yang menunjukkan kalau <em>type class</em> itu lebih umum daripada <em>interface</em> di Java:</p>
 <ol style="list-style-type: decimal">
 <li><p>Ketika sebuah <em>class</em> didefinisikan di Java, <em>interface</em> yang dimiliki juga dideklarasikan. Sedangkan anggota (<em>instance</em> dari) <em>type class</em> dideklarasikan di tempat berbeda dari tipenya sendiri, bahkan bisa diletakkan di modul berbeda.</p></li>
@@ -152,17 +152,17 @@ show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">
 <span class="ot">&gt;</span>   <span class="fu">...</span></code></pre></div>
 <p>Di Java hal ini bukanlah sesuatu yang mudah: satu contoh, salah satu dari dua argumen haruslah “istimewa” yaitu yang menerima <em>method</em> <code>(+)</code>. Hal ini mengakibatkan funsi menjadi asimetris dan canggung. Lebih jauh lagi, karena <em>subtyping</em> di Java, <em>interface</em> yang menerima dua argumen <em>tidak</em> menjamin kalau dua argumen tersebut bertipe sama, yang mengakibatkan implementasi operator biner seperti <code>(+)</code> menjadi canggung (biasanya melibatkan semacam pengecekan saat <em>runtime</em>).</p></li>
 </ol>
-<p><strong>Standard Type Classes</strong></p>
+<p><strong><em>Type Class</em> standar</strong></p>
 <p>Berikut adalah beberapa <em>type class</em> standar yang perlu kalian ketahui:</p>
 <ul>
-<li><p><a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t%3AOrd">Ord</a> adalah untuk tipe-tipe yang tiap elemennya bisa diurutkan secara total (<em>totally ordered</em>). Dengan kata lain, tiap elemennya bisa dibandingkan satu sama lain untuk dilihat mana yang lebih kecil dari yang lain. Ini menyediakan operasi perbandingan seperti <code>(&lt;)</code> dan <code>(&lt;=)</code>, serta fungsi <code>compare</code>.</p></li>
-<li><p><a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t%3ANum">Num</a> adalah untuk tipe “numerik”, yang mendukung hal-hal seperti penjumlahan, pengurangn, dan perkalian. Satu hal yang penting: literal <em>integer</em> adalah polimorfis <em>type class</em>:</p>
+<li><p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#t:Ord">Ord</a> adalah untuk tipe-tipe yang tiap elemennya bisa diurutkan secara total (<em>totally ordered</em>). Dengan kata lain, tiap elemennya bisa dibandingkan satu sama lain untuk dilihat mana yang lebih kecil dari yang lain. Ini menyediakan operasi perbandingan seperti <code>(&lt;)</code> dan <code>(&lt;=)</code>, serta fungsi <code>compare</code>.</p></li>
+<li><p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#t:Num">Num</a> adalah untuk tipe “numerik”, yang mendukung hal-hal seperti penjumlahan, pengurangan, dan perkalian. Satu hal yang penting: literal <em>integer</em> adalah polimorfis <em>type class</em>:</p>
 <pre><code>Prelude&gt; :t 5
 5 :: Num a =&gt; a</code></pre>
-<p>Ini berarti literal seperti <code>5</code> bisa digunakan sebagai <code>Int</code>, <code>Integer</code>, <code>Double</code>,atau tipe apapun yang anggota (<em>instance</em>) dari <code>Num</code> (seperti <code>Rational</code>, <code>Complex Double</code>, atau tipe kalian sendiri…)</p></li>
-<li><p><a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t%3AShow">Show</a> mendefinisikan <em>method</em> <code>show</code>, yang mengubah nilai menjadi <code>String</code>.</p></li>
-<li><p><a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:Eq/Read">Read</a> adalah dual dari <code>Show</code>.</p></li>
-<li><p><a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t%3AIntegral">Integral</a> mewakili semua tipe bilangan bulat seperti <code>Int</code> dan <code>Integer</code>.</p></li>
+<p>Ini berarti literal seperti <code>5</code> bisa digunakan sebagai <code>Int</code>, <code>Integer</code>, <code>Double</code>,atau tipe apapun yang merupakan anggota (<em>instance</em>) dari <code>Num</code> (seperti <code>Rational</code>, <code>Complex Double</code>, atau tipe kalian sendiri…)</p></li>
+<li><p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#t:Show">Show</a> mendefinisikan <em>method</em> <code>show</code>, yang mengubah nilai menjadi <code>String</code>.</p></li>
+<li><p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#t:Read">Read</a> adalah dual (catatan penerjemah: istilah dari Category Theory, yang bisa diartikan kurang lebih sebagai “kebalikan”) dari <code>Show</code>.</p></li>
+<li><p><a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#t:Integral">Integral</a> mewakili semua tipe bilangan bulat seperti <code>Int</code> dan <code>Integer</code>.</p></li>
 </ul>
 <p><strong>Contoh type class</strong></p>
 <p>Sebagai contoh untuk membuat <em>type class</em> sendiri:</p>
@@ -170,7 +170,7 @@ show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">
 <span class="ot">&gt;   toList ::</span> a <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</code></pre></div>
 <p>Kita bisa anggap <code>Listable</code> sebagai himpunan sesuatu yang bisa diubah menjadi sebuah list yang berisi <code>Int</code>. Perhatikan tipe dari <code>toList</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">toList ::</span> <span class="dt">Listable</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> [<span class="dt">Int</span>]</code></pre></div>
-<p>Mari kita buat <em>instance</em> (anggota) dari <code>Listable</code>. Pertama, sebuah <code>Int</code> bisa diubah menjadi sebuah <code>[Int]</code> hanya dengan menciptakan list singleton, begitu pula dengan <code>Bool</code>, dengan mengubah <code>True</code> menjadi <code>1</code> dan <code>False</code> menjadi <code>0</code>:</p>
+<p>Mari kita buat anggota (<em>instance</em>) dari <code>Listable</code>. Pertama, sebuah <code>Int</code> bisa diubah menjadi sebuah <code>[Int]</code> hanya dengan menciptakan list singleton, begitu pula dengan <code>Bool</code>, dengan mengubah <code>True</code> menjadi <code>1</code> dan <code>False</code> menjadi <code>0</code>:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">instance</span> <span class="dt">Listable</span> <span class="dt">Int</span> <span class="kw">where</span>
 <span class="ot">&gt;</span>   <span class="co">-- toList :: Int -&gt; [Int]</span>
 <span class="ot">&gt;</span>   toList x <span class="fu">=</span> [x]
@@ -192,7 +192,7 @@ show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">
 <span class="ot">&gt;</span> sumL x <span class="fu">=</span> sum (toList x)</code></pre></div>
 <p><code>ghci</code> akan memberitahukan kita bahwa tipe dari <code>sumL</code> adalah</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">sumL ::</span> <span class="dt">Listable</span> a <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre></div>
-<p>Masuk akal karena <code>sumL</code> hanya akan bekerjauntuk tipe yang merupakan anggota dari <code>Listable</code>, karena menggunakan <code>toList</code>. Bagaimana dengan yang ini?</p>
+<p>Masuk akal karena <code>sumL</code> hanya akan bekerja untuk tipe yang merupakan anggota dari <code>Listable</code>, karena menggunakan <code>toList</code>. Bagaimana dengan yang ini?</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> foo x y <span class="fu">=</span> sum (toList x) <span class="fu">==</span> sum (toList y) <span class="fu">||</span> x <span class="fu">&lt;</span> y</code></pre></div>
 <p><code>ghci</code> memberitahukan bahwa tipe dari <code>foo</code> adalah</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">foo ::</span> (<span class="dt">Listable</span> a, <span class="dt">Ord</span> a) <span class="ot">=&gt;</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
@@ -200,7 +200,7 @@ show<span class="ot"> ::</span> <span class="dt">Show</span> a <span class="ot">
 <p>Sebagai contoh terakhir yang lebih rumit:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt;</span> <span class="kw">instance</span> (<span class="dt">Listable</span> a, <span class="dt">Listable</span> b) <span class="ot">=&gt;</span> <span class="dt">Listable</span> (a,b) <span class="kw">where</span>
 <span class="ot">&gt;</span>   toList (x,y) <span class="fu">=</span> toList x <span class="fu">++</span> toList y</code></pre></div>
-<p>Perhatikan bahwa kita bisa meletakkan <em>type class constraint</em> pada tipe anggota (<em>instance</em>) dan juga pada tipe fungsi. Contoh tersebut menunjukkan bahwa sebuah <em>pair</em> bertipe <code>(a,b)</code> adalah anggota dari <code>Listable</code> selama <code>a</code> dan <code>b</code> juga anggota dari <code>Listable</code>. Lalu kita bisa menggunakan <code>toList</code> untuk <code>a</code> dan <code>b</code> di dalam definisi <code>toList</code> untuk <em>pair</em>. Definisi ini tidaklah rekursif! Versi <code>toList</code> untuk <em>pair</em> memanggil versi <code>toList</code> yang <em>berbeda</em>, bukan dirinya sendiri.</p>
+<p>Perhatikan bahwa kita bisa meletakkan <em>type class constraint</em> pada tipe anggota (<em>instance</em>) dan juga pada tipe fungsi. Contoh tersebut menunjukkan bahwa sebuah <em>pair</em> bertipe <code>(a,b)</code> adalah anggota dari <code>Listable</code> selama <code>a</code> dan <code>b</code> juga anggota dari <code>Listable</code>. Lalu kita bisa menggunakan <code>toList</code> untuk <code>a</code> dan <code>b</code> di dalam definisi <code>toList</code> untuk <em>pair</em>. Definisi ini tidaklah rekursif! Versi <code>toList</code> untuk <em>pair</em> memanggil versi <code>toList</code> yang <em>berbeda</em>, bukan yang didefinisikan di dirinya sendiri.</p>
 <p><!--
 
 Local Variables:

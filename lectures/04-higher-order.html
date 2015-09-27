@@ -87,19 +87,19 @@ Prelude&gt; map (*6) [1..5]
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; f' ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> (<span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>)
 <span class="ot">&gt;</span> f' x y <span class="fu">=</span> <span class="dv">2</span><span class="fu">*</span>x <span class="fu">+</span> y</code></pre></div>
 <p>Perhatikan bahwa anak panah fungsi <em>asosiatif ke kanan</em>, dengan kata lain, <code>W -&gt; X -&gt; Y -&gt; Z</code> sama dengan <code>W -&gt; (X -&gt; (Y -&gt; Z))</code>. Kita bisa menambahkan atau mengurangi tanda kurung di sekitar anak panah <em>top level</em> paling kanan di notasi tipe.</p>
-<p>Aplikasi fungsi, kebalikannya, bersifat asosiatif ke <em>kiri</em>. <code>f 3 2</code> sama dengan <code>(f 3) 2</code>. Masuk akal mengingat tentang <code>f</code> sebenarnya menerima satu argumen dan mengembalikan sebuah fungsi: kita <em>apply</em> <code>f</code> ke sebuah argumen <code>3</code>, yang mengembalikan fungsi bertipe <code>Int -&gt; Int</code>, yaitu sebuah fungsi yang menerima sebuah <code>Int</code> dan menambahkan 6 ke argumen tersebut. Lalu kita <em>apply</em> fungsi tersebut ke argumen <code>2</code> dengan menuliskan <code>(f 3) 2</code>, yang menghasilkan sebuah <code>Int</code>. Karena aplikasi fungsi asosiatif ke kiri, kita bisa menulis <code>(f 3) 2</code> sebagai <code>f 3 2</code>. Dengan begini, kita mendapatkan notasi yang bagus untuk <code>f</code> sebagai fungsi yang memiliki beberapa argumen.</p>
-<p>Abstraksi lambda untuk fungsi “multi-argument”</p>
+<p>Aplikasi fungsi, kebalikannya, bersifat asosiatif ke <em>kiri</em>. <code>f 3 2</code> sama dengan <code>(f 3) 2</code>. Masuk akal mengingat tentang <code>f</code> sebenarnya menerima satu argumen dan mengembalikan sebuah fungsi: kita terapkan <code>f</code> ke sebuah argumen <code>3</code>, yang mengembalikan fungsi bertipe <code>Int -&gt; Int</code>, yaitu sebuah fungsi yang menerima sebuah <code>Int</code> dan menambahkan 6 ke argumen tersebut. Lalu kita terapkan fungsi tersebut ke argumen <code>2</code> dengan menuliskan <code>(f 3) 2</code>, yang menghasilkan sebuah <code>Int</code>. Karena aplikasi fungsi asosiatif ke kiri, kita bisa menulis <code>(f 3) 2</code> sebagai <code>f 3 2</code>. Dengan begini, kita mendapatkan notasi yang bagus untuk <code>f</code> sebagai fungsi yang memiliki beberapa argumen.</p>
+<p>Abstraksi lambda untuk fungsi dengan beberapa argumen</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\x y z <span class="ot">-&gt;</span> <span class="fu">...</span> </code></pre></div>
-<p>hanyalah singkatan (<em>syntax sugar</em>) dari</p>
+<p>hanyalah versi lain (<em>syntax sugar</em>) dari</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> (\y <span class="ot">-&gt;</span> (\z <span class="ot">-&gt;</span> <span class="fu">...</span>))<span class="fu">.</span>  </code></pre></div>
 <p>Sebaliknya, definisi fungsi</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f x y z <span class="fu">=</span> <span class="fu">...</span> </code></pre></div>
-<p>hanyalah <em>syntax sugar</em> untuk</p>
+<p>hanyalah versi lain dari</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f <span class="fu">=</span> \x <span class="ot">-&gt;</span> (\y <span class="ot">-&gt;</span> (\z <span class="ot">-&gt;</span> <span class="fu">...</span>))<span class="fu">.</span></code></pre></div>
 <p>Sebagai contoh, kita bisa menulis ulang komposisi fungsi sebelumnya di atas dengan memindahkan <code>\x -&gt; ...</code> dari sisi kanan <code>=</code> ke sisi kiri:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; comp ::</span> (b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> c
 <span class="ot">&gt;</span> comp f g x <span class="fu">=</span> f (g x)</code></pre></div>
-<p>Ide untuk merepresentasikan fungsi dengan beberapa arguman sebagai fungsi satu argumen disebut <em>currying</em>, mengambil nama matematikawan dan ahli logika Inggris Haskell Curry (orang yang juga mengispirasi penamaan Haskell). Curry hidup sejak 1900-1982 dan banyak menghabiskan hidupnya di Penn State, dan juga membantu mengerjakan ENIAC di UPenn. Ide representasi tersebut sebenarnya ditemukan oleh Moses Schönfinkel, jadi mungkin kita layak menyebutnya <em>schönfinkeling</em>. Curry sendiri mengatributkan ide tersebut ke Schönfinkel, akan tetapi orang lain sudah terlanjur menyebutnya <em>currying</em>.</p>
+<p>Ide untuk merepresentasikan fungsi dengan beberapa arguman sebagai fungsi satu argumen disebut <em>currying</em>, mengambil nama matematikawan dan ahli logika Inggris Haskell Curry (orang yang juga mengispirasi penamaan Haskell). Curry (1900-1982) banyak menghabiskan hidupnya di Penn State, dan juga membantu mengerjakan ENIAC di UPenn. Ide representasi tersebut sebenarnya ditemukan oleh Moses Schönfinkel, jadi mungkin kita layak menyebutnya <em>schönfinkeling</em>. Curry sendiri mengatributkan ide tersebut ke Schönfinkel, akan tetapi orang lain sudah terlanjur menyebutnya <em>currying</em>.</p>
 <p>Jika kita ingin benar-benar menyatakan sebuah fungsi dengan beberapa argumen, kita bisa memberikan satu argumen berupa <em>tuple</em>. Fungsi ini</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; f'' ::</span> (<span class="dt">Int</span>,<span class="dt">Int</span>) <span class="ot">-&gt;</span> <span class="dt">Int</span>
 <span class="ot">&gt;</span> f'' (x,y) <span class="fu">=</span> <span class="dv">2</span><span class="fu">*</span>x <span class="fu">+</span> y</code></pre></div>
@@ -109,11 +109,11 @@ Prelude&gt; map (*6) [1..5]
 <span class="ot">&gt;</span> 
 <span class="ot">&gt;</span> unschö<span class="ot">nfinkel ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> (a,b) <span class="ot">-&gt;</span> c
 <span class="ot">&gt;</span> unschönfinkel f (x,y) <span class="fu">=</span> f x y</code></pre></div>
-<p><code>uncurry</code> berguna jika kita ingin meng-<em>apply</em> sebuah fungsi ke sebuah <em>pair</em>. Sebagai contoh:</p>
+<p><code>uncurry</code> berguna jika kita ingin menerapkan sebuah fungsi ke sebuah <em>pair</em>. Sebagai contoh:</p>
 <pre><code>Prelude&gt; uncurry (+) (2,3)
 5</code></pre>
 <p><strong>Aplikasi Parsial</strong></p>
-<p>Fakta bahwa fungsi di Haskell <em>curried</em> membuat aplikasi parsial (<em>partial application</em>) menjadi mudah. Aplikasi parsial adalah kita bisa mengambil sebuah fungsi yang menerima beberapa argumen dan mengaplikasikannya ke <em>sebagian</em> dari argumen-argumen tersebut, dan mendapatkan sebuah fungsi yang menerima argumen-argumen sisanya. Tapi seperti yang kita baru saja saksikan, di Haskell <em>tidak ada</em> fungsi dengan beberapa argumen! Tiap fungsi bisa diaplikasikan secara parsial (sebagian) ke argumen pertama (dan satu-satunya), menghasilkan sebuah fungsi yang menerima argumen-argumen sisanya.</p>
+<p>Fakta bahwa fungsi di Haskell <em>curried</em> membuat aplikasi parsial (atau penerapan sebagian, <em>partial application</em>) menjadi mudah. Aplikasi parsial adalah kita mengambil sebuah fungsi yang menerima beberapa argumen dan menerapkannya ke <em>sebagian</em> dari argumen-argumen tersebut, dan mendapatkan sebuah fungsi yang menerima argumen-argumen sisanya. Tapi seperti yang kita baru saja saksikan, di Haskell <em>tidak ada</em> fungsi dengan beberapa argumen! Tiap fungsi bisa diterapkan sebagian ke argumen pertama (dan satu-satunya), menghasilkan sebuah fungsi yang menerima argumen-argumen sisanya.</p>
 <p>Perhatikan bahwa tidak mudah di Haskell untuk melakukan aplikasi parsial ke argumen selain yang pertama. Pengecualian untuk operator <em>infix</em>, yang kita sudah lihat bisa di aplikasikan sebagian ke salah satu dari dua argumennya menggunakan sebuah <em>operator section</em>. Pada prakteknya ini bukanlah suatu masalah. Seni menentukan urutan argumen untuk membuat aplikasi parsial benar-benar berguna: argumen harus diurutkan dari yang <em>kurang bervariasi</em> sampai ke yang <em>paling bervariasi</em>. Artinya, argumen yang akan sering sama harus diletakkan lebih dulu (paling depan), dan argumen yang akan sering berbeda diletakkan belakangan.</p>
 <p><strong>Wholemeal programming</strong></p>
 <p>Mari kita rangkum semua yang sudah kita pelajari ke dalam sebuah contoh yang menunjukkan kekuatan pemrograman bergaya <em>wholemeal</em>. Fungsi <code>foobar</code> didefinisikan sebagai berikut:</p>
@@ -130,7 +130,7 @@ Prelude&gt; map (*6) [1..5]
 <p>Daripada memikirkan apa yang mau kita lakukan ke tiap elemen, kita lebih baik memikirkan transformasi bertahap ke semua elemen dengan menggunakan pola rekursi yang kita ketahui. Berikut adalah implementasi <code>foobar</code> yang lebih idiomatis:</p>
 <div class="sourceCode"><pre class="sourceCode literate literatehaskell"><code class="sourceCode literatehaskell"><span class="ot">&gt; foobar' ::</span> [<span class="dt">Integer</span>] <span class="ot">-&gt;</span> <span class="dt">Integer</span>
 <span class="ot">&gt;</span> foobar' <span class="fu">=</span> sum <span class="fu">.</span> map (\x <span class="ot">-&gt;</span> <span class="dv">7</span><span class="fu">*</span>x <span class="fu">+</span> <span class="dv">2</span>) <span class="fu">.</span> filter (<span class="fu">&gt;</span><span class="dv">3</span>)</code></pre></div>
-<p>Kali ini <code>foobar</code> didefinisikan sebagai “pipa” dari tiga fungsi: pertama, kita membuang semua elemen yang tidak lebih besar dari tiga; lalu kita <em>apply</em> operasi aritmetik ke tiap elemen sisanya; akhirnya, kita jumlahkan semuanya.</p>
+<p>Kali ini <code>foobar</code> didefinisikan sebagai “pipa” dari tiga fungsi: pertama, kita membuang semua elemen yang tidak lebih besar dari tiga; lalu kita terapkan operasi aritmetik ke tiap elemen sisanya; akhirnya, kita jumlahkan semuanya.</p>
 <p>Perhatikan <code>map</code> dan <code>filter</code> diaplikasikan parsial. Sebagai contoh, tipe <code>filter</code> adalah</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [a]</code></pre></div>
 <p>Mengaplikasikannya ke <code>(&gt;3)</code> (yang bertipe <code>Integer -&gt; Bool</code>) menghasilkan fungsi bertipe <code>[Integer] -&gt; [Integer]</code>, yang merupakan fungsi yang tepat untuk digabungkan dengan fungsi lain yang menerima <code>[Integer]</code>.</p>
@@ -163,7 +163,7 @@ join . ((flip . ((.) .)) .) . (. ap (++)) . (.)</code></pre>
 <span class="ot">&gt;</span> product'' <span class="fu">=</span> fold <span class="dv">1</span> (<span class="fu">*</span>)
 <span class="ot">&gt;</span> length''  <span class="fu">=</span> fold <span class="dv">0</span> (\_ s <span class="ot">-&gt;</span> <span class="dv">1</span> <span class="fu">+</span> s)</code></pre></div>
 <p>(Selain <code>(\_ s -&gt; 1 + s)</code> kita juga bisa menulisnya <code>(\_ -&gt; (1+))</code> atau bahkan <code>(const (1+))</code>.)</p>
-<p><code>fold</code> sudah tersedia di <code>Prelude</code>, dengan nama <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:foldr"><code>foldr</code></a>. Argumen-argumen untuk fungsi <code>foldr</code> sedikit berbeda urutannya dengan <code>fold</code> tadi, meski bekerja dengan cara yang sama. Berikut adalah beberapa fungsi dari <code>Prelude</code> yang didefinisikan dengan <code>foldr</code>:</p>
+<p><code>fold</code> sudah tersedia di <code>Prelude</code>, dengan nama [<code>foldr</code>] (https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#v:foldr) Argumen-argumen untuk fungsi <code>foldr</code> sedikit berbeda urutannya dengan <code>fold</code> tadi, meski bekerja dengan cara yang sama. Berikut adalah beberapa fungsi dari <code>Prelude</code> yang didefinisikan dengan <code>foldr</code>:</p>
 <ul>
 <li><code>length</code> <code>::          [a] -&gt; Int</code></li>
 <li><code>sum</code> <code>:: Num a =&gt; [a] -&gt; a</code></li>
@@ -173,10 +173,10 @@ join . ((flip . ((.) .)) .) . (. ap (++)) . (.)</code></pre>
 <li><code>any</code> <code>:: (a -&gt; Bool) -&gt; [a] -&gt; Bool</code></li>
 <li><code>all</code> <code>:: (a -&gt; Bool) -&gt; [a] -&gt; Bool</code></li>
 </ul>
-<p>Ada juga <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#v:foldl"><code>foldl</code></a>, yang “melipat (<em>fold</em>) dari kiri”,</p>
+<p>Ada juga <a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Prelude.html#v:foldl"><code>foldl</code></a> yang “melipat (<em>fold</em>) dari kiri”,</p>
 <pre><code>foldr f z [a,b,c] == a `f` (b `f` (c `f` z))
 foldl f z [a,b,c] == ((z `f` a) `f` b) `f` c</code></pre>
-<p>Pada umumnya, kita sebaiknya menggunakan <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Data-List.html#v:foldl"><code>foldl'</code> dari <code>Data.List</code></a> , yang sama seperti <code>foldl</code> tapi lebih efisien.</p></div>
+<p>Pada umumnya, kita sebaiknya menggunakan <a href="https://downloads.haskell.org/~ghc/latest/docs/html/libraries/base-4.8.1.0/Data-List.html#v:foldl"><code>foldl'</code> dari <code>Data.List</code></a> , yang sama seperti <code>foldl</code> tapi lebih efisien.</p></div>
 
     </div>
     <div id="footer">
