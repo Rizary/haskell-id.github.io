@@ -156,7 +156,7 @@ filterList :: (t -&gt; Bool) -&gt; List t -&gt; List t    </code></pre>
 <p>Sebenarnya, fungsi tersebut sudah terdefinisi di paket [<code>safe</code>] (http://hackage.haskell.org/package/safe).</p>
 <p>Mengapa ini ide yang bagus?</p>
 <ol style="list-style-type: decimal">
-<li><code>safeHead</code> tak akan pernah <em>crash</em>.<br /></li>
+<li><code>safeHead</code> tak akan pernah <em>crash</em>.</li>
 <li>Tipe <code>safeHead</code> memperjelas bahwa fungsi tersebut bisa gagal pada beberapa input.</li>
 <li>Sistem tipe (<em>type system</em>) memastikan pengguna <code>safeHead</code> harus selalu mengecek tipe hasilnya untuk melihat apakah nilai yang didapat atau <code>Nothing</code>.</li>
 </ol>
