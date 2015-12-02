@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Haskell-ID</title>
+    <meta name="description" content="Haskell Indonesia" />
+    <meta name="author" content="kusut" />
+    <titleinstall< title>
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/base-min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/default.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/style.css" />
+  </head>
+  <body>
+    <div id="header">
+      <h1><a href="./">Haskell Indonesia</a></h1>
+    </div>    
+    <div id="content">
+      <div class="pandoc"><p>Berikut adalah berbagai macam cara untuk menginstall Haskell di mesin Anda. Jika heran dengan banyaknya cara, ini timbul akibat ketidak-puasan pengguna dengan manajemen paket di Haskell.</p>
+<p>Metode yang direkomendasikan untuk menginstal Haskell <em>tools</em> ialah dengan menggunakan Stack.</p>
+<p>GHC: Glasgow Haskell Compiler cabal-install: <em>command-line tool</em> untuk mengurus manajemen paket</p>
+<h2 id="stack">Stack</h2>
+<p>Saat ini, <a href="http://haskellstack.org/">Stack</a> merupakan metode instalasi Haskell yang populer dan mudah. Stack akan mengurusi <em>compiler</em> untuk kita, isolasi proyek, dan membuat kita berbagi Haskell <em>package</em> antar proyek, sehingga tidak perlu <em>compile</em> hal yang sama berulang kali.</p>
+<p>Dengan keuntungan yang sedemikian besar, sedikit langkah ekstra yang diperlukan untuk menginstal Stack jadi tidak terasa berat.</p>
+<p>Stack akan mengurusi seluruh <em>tools</em> yang diperlukan dengan bertindak sebagai <em>front end</em> dari cabal-install.</p>
+<p>Stack tersedia dalam berbagai OS dan linux distro. Jika Anda pengguna linux <em>bleeding edge</em>, Anda tetap bisa mendapatkan Stack untuk Linux generic.</p>
+<h2 id="instal-ghc-dan-cabal-install-terpisah">Instal GHC dan Cabal-Install terpisah</h2>
+<p>Sebelum Stack populer, sebagian orang menginstall GHC dan cabal-install secara terpisah. Ada yang melalui cara yang spesifik dengan OS-nya (<a href="https://launchpad.net/~hvr/+archive/ubuntu/ghc">PPA</a>, AUR, MinGHC, dan lain-lain) atau ada juga yang melakukan kompilasi sendiri.</p>
+<p>Biasanya <code>cabal sandbox</code> digunakan untuk mengisolasi proyek. Isolasi ini mencegah terjadinya dependensi yang bentrok karena berbeda versi antar proyek tetapi tidak mengizinkan untuk berbagi dependensi yang memiliki kesamaan versi, sehingga banyak waktu terbuang untuk kompilasi paket yang sama.</p>
+<h2 id="haskell-platform">Haskell Platform</h2>
+<p>Haskell Platform membundle GHC, cabal-install, beserta beberapa paket lain. Cara ini semakin ditinggalkan saat ini karena meski terlihat mudah, tapi akan membawa masalah di kemudian hari.</p></div>
+
+    </div>
+    <div id="footer">
+      Haskell Indonesia &copy; 2015
+    </div>
+  </body>
+</html>
