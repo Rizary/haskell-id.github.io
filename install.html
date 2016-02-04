@@ -39,10 +39,22 @@
 <li>cabal-install: <em>command-line tool</em> untuk mengurus manajemen paket</li>
 </ul>
 <h2 id="stack">Stack</h2>
-<p>Saat ini, <a href="http://haskellstack.org/">Stack</a> merupakan metode instalasi Haskell yang populer dan mudah. Stack akan mengunduh <em>compiler</em>, mengisolasi proyek, dan mengumpulkan Haskell <em>package</em> antar proyek di satu tempat, sehingga tidak perlu <em>compile</em> hal yang sama berulang kali.</p>
+<p>Saat ini, <a href="http://haskellstack.org/">Stack</a> merupakan metode instalasi Haskell yang populer dan mudah. Stack akan mengunduh <em>compiler</em>, membuat kerangka proyek, mengisolasi proyek, dan mengumpulkan Haskell <em>package</em> antar proyek di satu tempat, sehingga tidak perlu <em>compile</em> hal yang sama berulang kali.</p>
 <p>Dengan keuntungan yang sedemikian besar, langkah ekstra yang diperlukan untuk menginstal Stack menjadi tidak berarti.</p>
 <p>Stack akan mengelola seluruh <em>tools</em> yang diperlukan dengan bertindak sebagai <em>front end</em> dari cabal-install.</p>
 <p>Stack tersedia untuk berbagai OS dan linux distro. Jika Anda pengguna linux <em>bleeding edge</em>, Anda tetap bisa mendapatkan <em>binary</em> Stack untuk Linux secara umum.</p>
+<h3 id="contoh-proyek">Contoh Proyek</h3>
+<p>Sebagai contoh, berikut instruksi untuk menjalankan situs ini pada mesin lokal Anda:</p>
+<ul>
+<li>[install stack] (http://docs.haskellstack.org/en/stable/README.html#how-to-install)</li>
+<li>clone repo situs ini (https://github.com/haskell-id/website/)</li>
+<li>masuk ke dalam folder proyek</li>
+<li><code>stack setup</code>. Ini akan mendownload GHC yang sesuai untuk proyek ini.</li>
+<li><code>stack build</code>. Kompilasi proyek.</li>
+</ul>
+<p>Setelah kompilasi, binary dapat ditemukan pada path yang bergantung pada tiap-tiap sistem. Path binary penulis pada saat artikel ini ditulis ialah: <code>/.stack-work/install/x86_64-linux/lts-3.11/7.10.2/bin/</code>.</p>
+<p>Untuk situs ini, kita bisa melakukan <code>site watch</code> untuk menjalankan webserver lokal di mana kita bisa melihat hasil situs di <code>localhost:8000</code>. <em>Long running process</em> ini juga akan mendeteksi jika ada perubahan konten, sehingga kita hanya perlu merefresh browser untuk melihatnya.</p>
+<p>Situs ini menggunakan <a href="https://jaspervdj.be/hakyll/">hakyll</a>, jika ingin tahu lebih banyak, kalian bisa melihat situs dan dokumentasinya.</p>
 <h2 id="install-ghc-dan-cabal-install-terpisah">Install GHC dan Cabal-Install terpisah</h2>
 <p>Sebelum Stack populer, sebagian orang menginstall GHC dan cabal-install secara terpisah. Ada yang melalui cara yang spesifik dengan OS-nya (<a href="https://launchpad.net/~hvr/+archive/ubuntu/ghc">PPA</a>, AUR, MinGHC, dan lain-lain) atau ada juga yang melakukan <a href="http://www.davesquared.net/2014/05/platformless-haskell.html">kompilasi sendiri</a>.</p>
 <p>Untuk mengisolasi proyek, <code>cabal sandbox</code> lumrah dilakukan. Isolasi ini mencegah terjadinya konflik <em>package</em> karena berbeda versi antar proyek, tetapi tidak mengizinkan untuk berbagi <em>package</em> yang memiliki kesamaan versi. Hal ini mengakibatkan duplikasi paket-paket berversi sama antar proyek akan dikompilasi berulang-ulang.</p>
